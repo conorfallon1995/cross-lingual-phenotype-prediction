@@ -53,11 +53,11 @@ from torch.utils.data.sampler import RandomSampler, SequentialSampler
 
 from transformers.data.data_collator import DataCollator, DataCollatorWithPadding, default_data_collator
 from transformers.file_utils import WEIGHTS_NAME, is_datasets_available, is_in_notebook, is_torch_tpu_available
-from transformers.modeling_auto import MODEL_FOR_QUESTION_ANSWERING_MAPPING
+#from transformers.modeling_auto import MODEL_FOR_QUESTION_ANSWERING_MAPPING
 from transformers.modeling_utils import PreTrainedModel
 from transformers.optimization import AdamW, get_linear_schedule_with_warmup
 from transformers.tokenization_utils_base import PreTrainedTokenizerBase
-from src.utils.trainer_callback import (
+from experiments.src.utils.trainer_callback import (
     CallbackHandler,
     DefaultFlowCallback,
     PrinterCallback,
@@ -341,7 +341,8 @@ class ExtendedTrainer:
         self.use_tune_checkpoints = False
         default_label_names = (
             ["start_positions", "end_positions"]
-            if type(self.model) in MODEL_FOR_QUESTION_ANSWERING_MAPPING.values()
+            #if type(self.model) in MODEL_FOR_QUESTION_ANSWERING_MAPPING.values()
+            if False
             else ["labels"]
         )
         self.label_names = default_label_names if self.args.label_names is None else self.args.label_names

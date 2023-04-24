@@ -68,9 +68,9 @@ def keep_first_match(m2):
 def get_map_files(path, type): 
 
     if type == 'diagnosis':
-        map2 = pd.read_csv(path.format('dias/2018_I9gem.txt'), delimiter='\t', header=None)
+        map2 = pd.read_csv('/pvc/mimic-iii-clinical-database-demo-1.4/ProcedureGEMs_2015/2018_I9gem.txt', delimiter='\t', header=None)
     elif type == 'procedures': 
-        map2 = pd.read_csv(path.format('procs/gem_i9pcs.txt'), delimiter='\t', header=None)
+        map2 = pd.read_csv('/pvc/mimic-iii-clinical-database-demo-1.4/ProcedureGEMs_2015/gem_i9pcs.txt', delimiter='\t', header=None)
 
     map2.columns = ['row']
 
@@ -124,8 +124,8 @@ def construct_dict(df):
 
     return dict(zip(keys, values))
 
-def mimic_map_icd9_icd10(df, dia_map): 
-    res = df.ICD9_CODE.map(dia_map)
+def mimic_map_icd9_icd10(df, dia_map):
+    res = df.icd9_code.map(dia_map)
     res = res[~res.isna()]
     return res.to_list()
     
@@ -147,8 +147,8 @@ def reduce_diag_code_size(mapper, digits):
 
 if __name__ == '__main__':
 
-    path = 'src/input_files/mimic_data/{}'
-    output_path = 'src/output/{}_{}'
+    path = '/pvc/mimic-iii-clinical-database-demo-1.4/{}'
+    output_path = '/pvc/mimic-iii-clinical-database-demo-1.4/output/{}_{}'
 
     mimic_dia, mimic_proc, mimic_dia_d, mimic_proc_d = get_mimic(path)
 
@@ -162,7 +162,7 @@ if __name__ == '__main__':
 
     ### reduce size to three digits
     reduced_map = reduce_diag_code_size(icd9_icd10_map, digits=3)
-    output_path = 'src/output/3_digit_{}_{}'
+    output_path = '/pvc/mimic-iii-clinical-database-demo-1.4/output/3_digit_{}_{}'
     save_unique_mapping_file(df_mapper_dict=dia_map, path=output_path, type='diagnosis')
 
 
@@ -175,7 +175,7 @@ if __name__ == '__main__':
 
     ### reduce size to three digits
     reduced_map = reduce_diag_code_size(icd9_icd10_map, digits=3)
-    output_path = 'src/output/3_digit_{}_{}'
+    output_path = '/pvc/mimic-iii-clinical-database-demo-1.4/output/3_digit_{}_{}'
     save_unique_mapping_file(df_mapper_dict=dia_map, path=output_path, type='procedures')
 
     

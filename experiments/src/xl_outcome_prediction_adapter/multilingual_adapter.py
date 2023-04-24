@@ -1,11 +1,11 @@
 import sys
-sys.path.append('/pvc/')
-from src.utils import utils
-from src.utils.trainer_callback import EarlyStoppingCallback
+sys.path.append('/pvc/cross-lingual-phenotype-prediction')
+from experiments.src.utils import utils
+from experiments.src.utils.trainer_callback import EarlyStoppingCallback
 import torch
 from transformers import AutoConfig, AutoModelWithHeads
 from transformers import TrainingArguments#, Trainer
-from src.xl_outcome_prediction_adapter.ExtendedTrainer import *
+from experiments.src.xl_outcome_prediction_adapter.ExtendedTrainer import *
 from datasets import concatenate_datasets
 from transformers import AdapterType, AdapterConfig
 import numpy as np
@@ -15,7 +15,7 @@ from ray import tune
 from torch.nn import BCEWithLogitsLoss
 from sklearn.metrics import ndcg_score as ndcg
 from transformers.integrations import MLflowCallback
-from src.utils.trainer_callback import *
+from experiments.src.utils.trainer_callback import *
 from sklearn.metrics import precision_recall_curve
 from sklearn.metrics import auc
 import pandas as pd
@@ -24,7 +24,11 @@ import pickle
 
 LANGUAGE_ADAPTERS = {'english': "en/wiki@ukp", 
                     'spanish': "es/wiki@ukp", 
-                    'greek':   "el/wiki@ukp"
+                    'greek': "el/wiki@ukp",
+                    #'portuguese': "pt/wiki@ukp"
+                    'portuguese': "/pvc/tasks/pt_wiki_test/checkpoint-250000/mlm"
+                    #'portuguese': "/pvc/adapters/pt_adapter"
+
                     }
 
 
@@ -32,6 +36,7 @@ LANGUAGE_ADAPTERS = {'english': "en/wiki@ukp",
 class AdapterSetup():
 
     def __init__(self, num_labels, languages, task_adapter_name, is_first, task_adapter_path, config, model_name="xlm-roberta-base"):
+    #def __init__(self, num_labels, languages, task_adapter_name, is_first, task_adapter_path, config, model_name="bert-base-multilingual-cased"):
         '''
             language and task specify path of the data
             model_name: choose multilingual model
@@ -41,6 +46,7 @@ class AdapterSetup():
         self.task_adapter_name = task_adapter_name
 
         base_model = self.setup_base_model(model_name=model_name, config=config, is_first=is_first)
+        
     
         adapter_language_model = self.setup_language_adapter(languages=languages,
                                                             base_model=base_model,)
@@ -84,6 +90,8 @@ class AdapterSetup():
              base_model.load_adapter(LANGUAGE_ADAPTERS[language], 
                                     AdapterType.text_lang, 
                                     config=lang_adapter_config,)
+                #  base_model.load_adapter(LANGUAGE_ADAPTERS[language], 
+                #         config=lang_adapter_config)
         return base_model
 
     def add_task_adapter(self,
@@ -95,6 +103,7 @@ class AdapterSetup():
 
         if is_first: 
             adapter_language_model.add_adapter(self.task_adapter_name, AdapterType.text_task)
+            #adapter_language_model.add_adapter(self.task_adapter_name)
             # Add a classification head for our target task
             adapter_language_model.add_classification_head(self.task_adapter_name, num_labels=num_labels, multilabel=multilabel,)
         else:

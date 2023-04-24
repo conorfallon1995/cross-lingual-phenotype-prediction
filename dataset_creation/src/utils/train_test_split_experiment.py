@@ -1,5 +1,6 @@
 import pandas as pd 
 import numpy as np
+import ast
 
 def label_to_pos_map(all_codes):
         label_to_pos = dict([(code,pos) for code, pos in zip(sorted(all_codes),range(len(all_codes)))])
@@ -11,11 +12,22 @@ def label_to_tensor(data, label_to_pos):
 
     tmp = np.zeros((len(data), 
                     len(label_to_pos)))
-
     c = 0
     for idx, row in data.iterrows():
         for code in row['labels']:
-                tmp[c, label_to_pos[code]] = 1
+            tmp[c, label_to_pos[code]] = 1
+        c += 1
+
+    return tmp
+
+def brazilian_label_to_tensor(data, label_to_pos):
+
+    tmp = np.zeros((len(data), 
+                    len(label_to_pos)))
+    c = 0
+    for idx, row in data.iterrows():
+        for code in ast.literal_eval(row['labels']):
+            tmp[c, label_to_pos[code]] = 1
         c += 1
 
     return tmp
@@ -27,7 +39,8 @@ def stratified_sampling_multilearn(df, y, train_data_output_path):
     from skmultilearn.model_selection import IterativeStratification
 
     df = df.reset_index(drop=True).sample(frac=1, random_state=42)
-    k_fold = IterativeStratification(n_splits=3, order=1, random_state=42)
+    #k_fold = IterativeStratification(n_splits=3, order=1, random_state=42)
+    k_fold = IterativeStratification(n_splits=3, order=1)
 
     nfold = 1 
     for train, test in k_fold.split(df, y):
@@ -48,9 +61,9 @@ def stratified_sampling_multilearn(df, y, train_data_output_path):
 
 def load_mimic_paper_split(df, train_data_output_path):
 
-    dev_patients = pd.read_csv('dataset_creation/input_files/ids_mimic_dev.csv')
-    test_patients = pd.read_csv('dataset_creation/input_files/ids_mimic_test.csv')
-    train_patients = pd.read_csv('dataset_creation/input_files/ids_mimic_train.csv')
+    dev_patients = pd.read_csv('/pvc/cross-lingual-phenotype-prediction/dataset_creation/input_files/ids_mimic_dev.csv')
+    test_patients = pd.read_csv('/pvc/cross-lingual-phenotype-prediction/dataset_creation/input_files/ids_mimic_test.csv')
+    train_patients = pd.read_csv('/pvc/cross-lingual-phenotype-prediction/dataset_creation/input_files/ids_mimic_train.csv')
 
     df_train = df[df.HADM_ID.isin(train_patients.HADM_ID)]
     df_test = df[df.HADM_ID.isin(test_patients.HADM_ID)]
@@ -63,9 +76,9 @@ def load_mimic_paper_split(df, train_data_output_path):
 
 def load_codie_paper_split(df, train_data_output_path):
 
-    dev_patients = pd.read_csv('dataset_creation/input_files/ids_codie_dev.csv')
-    test_patients = pd.read_csv('dataset_creation/input_files/ids_codie_test.csv')
-    train_patients = pd.read_csv('dataset_creation/input_files/ids_codie_train.csv')
+    dev_patients = pd.read_csv('/pvc/cross-lingual-phenotype-prediction/dataset_creation/input_files/ids_codie_dev.csv')
+    test_patients = pd.read_csv('/pvc/cross-lingual-phenotype-prediction/dataset_creation/input_files/ids_codie_test.csv')
+    train_patients = pd.read_csv('/pvc/cross-lingual-phenotype-prediction/dataset_creation/input_files/ids_codie_train.csv')
 
     df_train = df[df.patient_id.isin(train_patients.patient_id)]
     df_test = df[df.patient_id.isin(test_patients.patient_id)]

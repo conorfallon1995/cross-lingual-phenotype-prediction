@@ -1,5 +1,5 @@
 import sys
-sys.path.append('/home/neuron/PycharmProjects/cross-lingual-phenotype-prediction')
+sys.path.append('/pvc/cross-lingual-phenotype-prediction')
 from dataset_creation.src.utils import codie_utils
 from dataset_creation.src.utils import utils
 from dataset_creation.src.utils import build_dataset_spanish_english_experiment, train_test_split_experiment
@@ -9,8 +9,8 @@ if __name__ == '__main__':
     # keep all digits
     digits = -1
     #CODIESP PATHS
-    codiesp_src_path = '/home/neuron/Documents/codiesp/final_dataset_v4_to_publish/{}/{}'
-    notes_path = '/home/neuron/Documents/codiesp/final_dataset_v4_to_publish/{}/text_files/'
+    codiesp_src_path = '/pvc/final_dataset_v4_to_publish/{}/{}'
+    notes_path = '/pvc/final_dataset_v4_to_publish/{}/text_files/'
     #MAPPING CSVs ICD10 to  CCS Diagnosis
     icd_10_dxccsr_paths = 'dataset_creation/input_files/DXCCSR_v2021-2.csv' 
     #achepa_icd_diagnosis_path = 'src/input_files/achepa_data/ICD_Diagnosis_V4.xlsx'

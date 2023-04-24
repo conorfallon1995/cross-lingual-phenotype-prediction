@@ -1,6 +1,6 @@
 import sys 
 sys.path.append('/pvc/')
-import src.evaluation_utils as evaluation_utils
+import evaluation_utils as evaluation_utils
 import src.utils.utils as utils
 import datasets
 from src.baselines.spanish_bert import SpanishBertBaseline
@@ -110,8 +110,10 @@ if __name__ == '__main__':
     nfold = 3
     filter_set_name = 'ccs_codie'
     translator_data_selector = 'Opus_el_en'  #'official_translation' #'Opus_el_en'
-    eval_dataset = 'achepa'
-    language = 'spanish'
+    #eval_dataset = 'achepa'
+    eval_dataset = 'brazilian'
+    #language = 'spanish'
+    language = 'portugeuse'
     mname = 'mimic_achepa_opus_pubmed'
     eval_type = 'few_shot_ccs' #'zero_shot_ccs' #average #long_tail_ccs, top_codes few_shot_ccs
     eval_model = eval_models[mname]

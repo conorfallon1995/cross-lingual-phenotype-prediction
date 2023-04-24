@@ -11,8 +11,8 @@ from torch.utils.data import TensorDataset, DataLoader, RandomSampler, Sequentia
 import sys
 from transformers.utils.dummy_pt_objects import TransfoXLLMHeadModel
 sys.path.append('/pvc/')
-from src.utils.codiespDataset import *
-from src.baselines.spanish_bert import SpanishBertBaseline
+from experiments.src.utils.codiespDataset import *
+from experiments.src.baselines.spanish_bert import SpanishBertBaseline
 from pytorch_lightning.utilities.seed import seed_everything
 
 def preprocessing_for_bert(data, label_to_pos, tokenizer, language):

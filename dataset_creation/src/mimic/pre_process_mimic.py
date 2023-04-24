@@ -1,5 +1,5 @@
 import sys
-sys.path.append('/home/neuron/PycharmProjects/cross-lingual-phenotype-prediction')
+sys.path.append('/pvc/cross-lingual-phenotype-prediction')
 from dataset_creation.src.utils import mimic_utils
 from dataset_creation.src.utils import utils
 from dataset_creation.src.utils import build_dataset_spanish_english_experiment, train_test_split_experiment
@@ -10,13 +10,13 @@ if __name__== '__main__':
 
     SELECTOR = 'PART_2'
     task = 'codie_CCS'
-    icd_10_dxccsr_paths = 'dataset_creation/input_files/DXCCSR_v2021-2.csv'
-    mimic_src_path = '/home/neuron/PycharmProjects/data/mimiciii/1.4/'
+    icd_10_dxccsr_paths = '/pvc/cross-lingual-phenotype-prediction/dataset_creation/input_files/DXCCSR_v2021-2.csv'
+    mimic_src_path = '/pvc/connor/mimic-iii-clinical-database-1.4/'
     # created with GEMS (General Equivalence Mapping)
-    diagnosis_icd9_icd10_mapper_path = 'dataset_creation/input_files/diagnosis_icd9_icd10.pcl'
+    diagnosis_icd9_icd10_mapper_path = '/pvc/cross-lingual-phenotype-prediction/dataset_creation/input_files/diagnosis_icd9_icd10.pcl'
     #LABELS OUTPUT PATH
-    labels_output_path = 'dataset_creation/output_files/{}_labels.pcl'
-    train_data_output_path = 'dataset_creation/output_files/{}'
+    labels_output_path = '/pvc/cross-lingual-phenotype-prediction/dataset_creation/output_files/{}_labels.pcl'
+    train_data_output_path = '/pvc/cross-lingual-phenotype-prediction/dataset_creation/output_files/{}'
     
     if SELECTOR in ['PART_1', 'ALL']:
         #load mimic, filter , map icd9 to icd 10 and get relevant sections

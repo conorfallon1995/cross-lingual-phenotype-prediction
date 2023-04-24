@@ -18,6 +18,8 @@ from itertools import count
 from pathlib import Path
 from typing import Any, Dict, Iterable, List, Optional, Union
 
+import sys
+
 import torch
 from torch.utils.data import DataLoader
 
@@ -35,7 +37,8 @@ from pytorch_lightning.trainer.configuration_validator import ConfigValidator
 from pytorch_lightning.trainer.connectors.accelerator_connector import AcceleratorConnector
 from pytorch_lightning.trainer.connectors.callback_connector import CallbackConnector
 #from pytorch_lightning.trainer.connectors.checkpoint_connector import CheckpointConnector
-from src.baselines.checkpoint_connector_extend import CheckpointConnector
+sys.path.append('/pvc/cross-lingual-phenotype-prediction')
+from experiments.src.baselines.checkpoint_connector_extend import CheckpointConnector
 from pytorch_lightning.trainer.connectors.data_connector import DataConnector
 from pytorch_lightning.trainer.connectors.debugging_connector import DebuggingConnector
 from pytorch_lightning.trainer.connectors.env_vars_connector import _defaults_from_env_vars

@@ -28,10 +28,10 @@ from ray.tune.suggest.hyperopt import HyperOptSearch
 from hyperopt import hp
 import sys
 
-from src.utils.codiespDataset import codiespDataset
+from experiments.src.utils.codiespDataset import codiespDataset
 sys.path.append('/pvc/')
-from src.utils import utils
-from src.utils.trainer_callback import EarlyStoppingCallback
+from experiments.src.utils import utils
+from experiments.src.utils.trainer_callback import EarlyStoppingCallback
 import pickle
 
 
@@ -47,7 +47,8 @@ def tune_adapter(config,
                               
         language_codes = {'spanish':'es',
                         'english':'en', 
-                        'greek':'el'
+                        'greek':'el',
+                        'portuguese':'mlm'
                         }
 
         utils.set_seeds(seed=config['seed'])
@@ -57,6 +58,8 @@ def tune_adapter(config,
                                                                 dataset_name=dataset_name)
 
         task_adapter_name = f'codiesp_diagnosis_v4'
+        #task_adapter_name = f'brazilian_codiesp_filtered'
+
 
         codieSP_adapter = AdapterSetup(task_adapter_path=task_adapter_path,
                                         num_labels=len(labels),
@@ -96,10 +99,12 @@ if __name__ == "__main__":
         is_first = True
 
         # model name SLA(single language)
-        mname = 'SLA' 
+        mname = 'SLA'
+        #mname = 'MLA' 
 
         # base model where adapters are intergrated
         model_name = 'xlm-roberta-base'
+        #model_name = 'bert-base-multilingual-cased'
 
         # column name of the text with English Translation
         ''' 'None' if you want the original language elsewise you have to use the name of the column that contains
@@ -110,7 +115,8 @@ if __name__ == "__main__":
         filter_set_name = 'ccs_codie'
 
         # name of the dataset to train with
-        eval_dataset = 'codie'
+        eval_dataset = 'brazilian'
+        #eval_dataset = 'codie'
         
         '''
          if it is not the first run include the other 
@@ -119,10 +125,14 @@ if __name__ == "__main__":
          second training is with CodiEsp 
          languages = ['english', 'spanish']
         '''
-        languages = ['spanish']
+        #languages = ['spanish']
+        #languages = ['english']
+        #languages = ['english', 'spanish']
+        languages = ['portuguese']
         
         #language of the current dataset to continue training and evaluation
-        language = 'spanish'
+        #language = 'spanish'
+        language = 'portuguese'
         
         # just a variable for the naming of the experiments
         mla_order = '_'.join(languages)
@@ -137,32 +147,43 @@ if __name__ == "__main__":
         resources_per_trial = {'cpu': 8, "gpu":1}
 
         # paths to datasets labels and columnname for translation or not (translation or original)
-        data_paths = {'train_data_path_mimic': f"/pvc/output_files/mimic_codiesp_filtered_CCS_train.csv",
-                'validation_data_path_mimic': f"/pvc/dataset_creation/output_files/mimic_codiesp_filtered_CCS_dev.csv",
-                'test_data_path_mimic': f"/pvc/output_files/mimic_codiesp_filtered_CCS_test.csv",
+        data_paths = {'train_data_path_mimic': f"/pvc/data/paper_data/mimic_codiesp_filtered_CCS_fold_1_train.csv",
+                'validation_data_path_mimic': f"/pvc/data/paper_data/mimic_codiesp_filtered_CCS_fold_1_dev.csv",
+                'test_data_path_mimic': f"/pvc/data/paper_data/mimic_codiesp_filtered_CCS_fold_1_test.csv",
                 
-                'train_data_path_achepa': f"/pvc/output_files/train.csv",
-                'validation_data_path_achepa': f"/pvc/output_files/dev.csv",
-                'test_data_path_achepa': f"/pvc/output_files/test.csv",
+                'train_data_path_achepa': f"/pvc/data/paper_data/achepa_codiesp_filtered_CCS_fold_1_train.csv",
+                'validation_data_path_achepa': f"/pvc/data/paper_data/achepa_codiesp_filtered_CCS_fold_1_dev.csv",
+                'test_data_path_achepa': f"/pvc/data/paper_data/achepa_codiesp_filtered_CCS_fold_1_test.csv",
+                # Note that these contain the translations as well
+                # 'train_data_path_codie': f"/pvc/data/paper_data/codiesp_CCS_fold_1_train.csv",
+                # 'validation_data_path_codie': f"/pvc/data/paper_data/codiesp_CCS_fold_1_dev.csv",
+                # 'test_data_path_codie': f"/pvc/data/paper_data/codiesp_CCS_fold_1_test.csv",
 
-                'train_data_path_codie': f"/pvc/output_files/codiesp_CCS_train.csv",
-                'validation_data_path_codie': f"/pvc//output_files/codiesp_CCS_dev.csv",
-                'test_data_path_codie': f"/pvc/output_files/codiesp_CCS_test.csv",
+                'train_data_path_brazilian': f"/pvc/cross-lingual-phenotype-prediction/dataset_creation/output_files/brazilian_codiesp_filtered_CCS_fold_1_train.csv",
+                'validation_data_path_brazilian': f"/pvc/cross-lingual-phenotype-prediction/dataset_creation/output_files/brazilian_codiesp_filtered_CCS_fold_1_dev.csv",
+                'test_data_path_brazilian': f"/pvc/cross-lingual-phenotype-prediction/dataset_creation/output_files/brazilian_codiesp_filtered_CCS_fold_1_test.csv",
 
-                'all_labels_path': f"/pvc/output_files/{filter_set_name}_labels.pcl",
+                'train_data_path_codie': f"/pvc/cross-lingual-phenotype-prediction/dataset_creation/output_files/codiesp_CCS_train.csv",
+                'validation_data_path_codie': f"/pvc/cross-lingual-phenotype-prediction/dataset_creation/output_files/codiesp_CCS_dev.csv",
+                'test_data_path_codie': f"/pvc/cross-lingual-phenotype-prediction/dataset_creation/output_files/codiesp_CCS_test.csv",
+
+                'all_labels_path': f"/pvc/cross-lingual-phenotype-prediction/dataset_creation/output_files/{filter_set_name}_labels.pcl",
                 'eval_dataset': eval_dataset,
                 'translator_data_selector': translator_data_selector,
                 }
 
         # Paths to best models to continue training
-        task_adapter_mimic_sla_path = '/pvc/raytune_ccs_codie/tune_adapter_mimic_original_SLA/_inner_2c36a0d2_50_first_acc_steps=4,first_attention_dropout=0.1,first_batch_size=8,first_hidden_dropout=0.1,first_lr=0.00042751,f_2021-10-20_00-03-23/training_output_en_0.0004275118309968961_0/checkpoint-13914/'
+        #task_adapter_mimic_sla_path = '/pvc/raytune_ccs_codie/tune_adapter_mimic_original_SLA/_inner_2c36a0d2_50_first_acc_steps=4,first_attention_dropout=0.1,first_batch_size=8,first_hidden_dropout=0.1,first_lr=0.00042751,f_2021-10-20_00-03-23/training_output_en_0.0004275118309968961_0/checkpoint-13914/'
         task_adapter_achepa_sla_path = '/pvc/raytune_ccs_codie/tune_adapter_achepa_original_SLA/_inner_4cc57928_35_first_acc_steps=2,first_attention_dropout=0.1,first_batch_size=8,first_hidden_dropout=0.1,first_lr=0.0052487,fi_2021-10-20_14-09-26/training_output_el_0.005248721818032698_0/checkpoint-198'
         task_adapter_mimic_achepa_mla_path = '/pvc/raytune_ccs_codie/tune_adapter_english_greek_MLA/_inner_b566d67e_34_first_acc_steps=0,first_attention_dropout=0,first_batch_size=8,first_hidden_dropout=0,first_lr=0,first_num_epoc_2021-10-20_17-58-50/training_output_el_0_0.0005403420575244382/checkpoint-3781'
-        task_adapter_mimic_codie_mla_path = '/pvc/raytune_ccs_codie/tune_adapter_english_spanish_MLA/_inner_b697bfc6_12_first_acc_steps=0,first_attention_dropout=0,first_batch_size=8,first_hidden_dropout=0,first_lr=0,first_num_epoc_2021-10-20_10-52-50/training_output_es_0_0.0011030338137158105/checkpoint-160'
+        #task_adapter_mimic_codie_mla_path = '/pvc/raytune_ccs_codie/tune_adapter_english_spanish_MLA/_inner_b697bfc6_12_first_acc_steps=0,first_attention_dropout=0,first_batch_size=8,first_hidden_dropout=0,first_lr=0,first_num_epoc_2021-10-20_10-52-50/training_output_es_0_0.0011030338137158105/checkpoint-160'
         task_adapter_codie_sla_path = '/pvc/raytune_ccs_codie/tune_adapter_codie_original_SLA/_inner_b34ab760_27_first_acc_steps=2,first_attention_dropout=0.3,first_batch_size=8,first_hidden_dropout=0.1,first_lr=0.0076105,fi_2021-10-19_14-34-52/training_output_es_0.007610478516231566_0/checkpoint-205'
         task_adapter_achepa_mimic_mla_path = '/pvc/raytune_ccs_codie/tune_adapter_greek_english_diagnosis_MLA/_inner_3a0ea5a2_41_first_acc_steps=0,first_attention_dropout=0,first_batch_size=8,first_hidden_dropout=0,first_lr=0,first_num_epoc_2021-11-16_03-20-21/training_output_en_0_0.0017506470138346506/checkpoint-6176'
         task_adapter_codie_mimic_mla_path = '/pvc/raytune_ccs_codie/tune_adapter_spanish_english_diagnosis_MLA/_inner_7ceb71c6_34_first_acc_steps=0,first_attention_dropout=0,first_batch_size=8,first_hidden_dropout=0,first_lr=0,first_num_epoc_2021-11-15_14-43-55/training_output_en_0_0.0008006564657455058/checkpoint-6957'
         
+        # My best paths
+        task_adapter_mimic_sla_path = '/pvc/raytune_ccs_codie/tune_adapter_mimic_original_SLA_TEST/_inner_0947b688_1_first_acc_steps=2,first_attention_dropout=0.1,first_batch_size=8,first_hidden_dropout=0.1,first_lr=0.0001,first__2023-03-06_12-25-52/training_output_en_0.0001_0/checkpoint-55764'
+        task_adapter_mimic_codie_mla_path = '/pvc/raytune_ccs_codie/tune_adapter_english_spanish_diagnosis_MLA_TEST/_inner_fffa38c0_14_first_acc_steps=0,first_attention_dropout=0,first_batch_size=8,first_hidden_dropout=0,first_lr=0,first_num_epoc_2023-03-10_12-01-26/training_output_es_0_0.0072789367740584785'
         if is_first:
                 # first training
                 task_adapter_path = None
@@ -205,6 +226,17 @@ if __name__ == "__main__":
                         elif mname == 'MLA': 
                                 dataset_name = f"{mla_order}_{task}"
                         experiment_name = f"{dataset_name}_{mname}"
+
+        elif language == 'portuguese':
+                if translator_data_selector is not None:
+                        dataset_name = f"brazilian_{translator_data_selector}"
+                else:
+                        if mname == 'SLA':
+                                dataset_name = f"brazilian_original"
+                        elif mname == 'MLA': 
+                                dataset_name = f"{mla_order}_{task}"
+                        experiment_name = f"{dataset_name}_{mname}"
+
         else: 
                 dataset_name = f"{translator_data_selector}"
                 experiment_name = f"{dataset_name}_{mname}_{task}"
@@ -338,11 +370,17 @@ if __name__ == "__main__":
                         checkpoint_at_end=True,)
 
         best_config = analysis.get_best_config()
-        with open(f"/pvc/tasks/codie_ccs_based_data/{experiment_name}_best_config_{filter_set_name}.pcl",'wb') as f: 
+        
+        # with open(f"/pvc/tasks/codie_ccs_based_data/{experiment_name}_best_config_{filter_set_name}.pcl",'wb') as f: 
+        #         pickle.dump(best_config, f)
+
+        # analysis.best_result_df.to_csv(f"/pvc/tasks/codie_ccs_based_data/{experiment_name}_best_result_{filter_set_name}.csv", index=False)
+        # analysis.dataframe().to_csv(f"/pvc/tasks/codie_ccs_based_data/{experiment_name}_best_result_{filter_set_name}.csv", index=False)
+        with open(f"/pvc/tasks/brazilian_based_data/{experiment_name}_best_config_{filter_set_name}.pcl",'wb') as f: 
                 pickle.dump(best_config, f)
 
-        analysis.best_result_df.to_csv(f"/pvc/tasks/codie_ccs_based_data/{experiment_name}_best_result_{filter_set_name}.csv", index=False)
-        analysis.dataframe().to_csv(f"/pvc/tasks/codie_ccs_based_data/{experiment_name}_best_result_{filter_set_name}.csv", index=False)
+        analysis.best_result_df.to_csv(f"/pvc/tasks/brazilian_based_data/{experiment_name}_best_result_{filter_set_name}.csv", index=False)
+        analysis.dataframe().to_csv(f"/pvc/tasks/brazilian_based_data/{experiment_name}_best_result_{filter_set_name}.csv", index=False)
                 
 
         

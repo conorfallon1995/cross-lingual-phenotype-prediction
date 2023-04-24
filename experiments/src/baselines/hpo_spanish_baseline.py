@@ -14,9 +14,9 @@ from torch.utils.data import dataset
 from transformers import BertTokenizerFast
 from spanish_bert import *
 import sys
-sys.path.append('/pvc/')
-from src.utils import utils
-from src.baselines.trainer_extended import Trainer as Trainer_Extended
+sys.path.append('/pvc/cross-lingual-phenotype-prediction')
+from experiments.src.utils import utils
+from experiments.src.baselines.trainer_extended import Trainer as Trainer_Extended
 
 from pytorch_lightning.callbacks.early_stopping import EarlyStopping
 from pytorch_lightning.callbacks import ModelCheckpoint
@@ -112,13 +112,15 @@ if __name__  == "__main__":
     
     #run settings
     #the variable is used for experiment naming
-    language = 'clinical_spanish_V3'
+    #language = 'clinical_spanish_V3'
+    #language = 'clinical_brazilian_V1'
+    language = 'spanish'
     
     # dataset to train or evaluate with
-    eval_dataset = 'codie' #'mimic'
+    eval_dataset = 'codie' #'brazilian' #'codie' #'mimic'
 
     # model naming
-    mname = 'spanish_biobert_uncased'
+    mname = 'xlmr'
 
     # model base to train with
     model_name = model_names[mname]
@@ -134,21 +136,30 @@ if __name__  == "__main__":
     resources_per_trial = {'cpu': 8, "gpu":1}
 
     # paths to datasets labels and column (translation or original)
-    data_paths = {'train_data_path_mimic': f"/pvc/output_files/mimic_codiesp_filtered_CCS_train.csv",
-                'validation_data_path_mimic': f"/pvc/output_files/mimic_codiesp_filtered_CCS_dev.csv",
-                'test_data_path_mimic': f"/pvc/output_files/mimic_codiesp_filtered_CCS_test.csv",
+    data_paths = {'train_data_path_mimic': f"/pvc/cross-lingual-phenotype-prediction/dataset_creation/output_files/mimic_codiesp_filtered_CCS_test.csv",
+                'validation_data_path_mimic': f"/pvc/cross-lingual-phenotype-prediction/dataset_creation/output_files/mimic_codiesp_filtered_CCS_dev.csv",
+                'test_data_path_mimic': f"/pvc/cross-lingual-phenotype-prediction/dataset_creation/output_files/mimic_codiesp_filtered_CCS_test.csv",
 
                 'train_data_path_achepa': f"/pvc/output_files/train.csv",
                 'validation_data_path_achepa': f"/pvc/output_files/dev.csv",
                 'test_data_path_achepa': f"/pvc/output_files/test.csv",
 
-                'train_data_path_codie': f"/pvc/output_files/codiesp_CCS_train.csv",
-                'validation_data_path_codie': f"/pvc/output_files/codiesp_CCS_dev.csv",
-                'test_data_path_codie': f"/pvc/output_files/codiesp_CCS_test.csv",
+                'train_data_path_codie': f"/pvc/cross-lingual-phenotype-prediction/dataset_creation/output_files/codiesp_CCS_train.csv",
+                'validation_data_path_codie': f"/pvc/cross-lingual-phenotype-prediction/dataset_creation/output_files/codiesp_CCS_dev.csv",
+                'test_data_path_codie': f"/pvc/cross-lingual-phenotype-prediction/dataset_creation/output_files/codiesp_CCS_test.csv",
 
-                'all_labels_path': f"/pvc/output_files/{filter_set_name}_labels.pcl",
+                'all_labels_path': f"/pvc/cross-lingual-phenotype-prediction/dataset_creation/output_files/{filter_set_name}_labels.pcl",
                 'eval_dataset': eval_dataset,
                 'translator_data_selector': translator_data_selector,
+
+                # 'train_data_path_brazilian': f"/pvc/cross-lingual-phenotype-prediction/dataset_creation/output_files/brazilian_codiesp_filtered_CCS_fold_1_train.csv",
+                # 'validation_data_path_brazilian': f"/pvc/cross-lingual-phenotype-prediction/dataset_creation/output_files/brazilian_codiesp_filtered_CCS_fold_1_dev.csv",
+                # 'test_data_path_brazilian': f"/pvc/cross-lingual-phenotype-prediction/dataset_creation/output_files/brazilian_codiesp_filtered_CCS_fold_1_test.csv",
+                
+                'train_data_path_brazilian': f"/pvc/cross-lingual-phenotype-prediction/dataset_creation/output_files/v3_brazilian_codiesp_filtered_CCS__fold_1_train.csv",
+                'validation_data_path_brazilian': f"/pvc/cross-lingual-phenotype-prediction/dataset_creation/output_files/v3_brazilian_codiesp_filtered_CCS__fold_1_dev.csv",
+                'test_data_path_brazilian': f"/pvc/cross-lingual-phenotype-prediction/dataset_creation/output_files/v3_brazilian_codiesp_filtered_CCS__fold_1_test.csv",
+
                 }
 
     assert data_paths['translator_data_selector'] in ['official_translation', 'Opus_el_en', None]
@@ -169,7 +180,7 @@ if __name__  == "__main__":
     #######XLMR MODELS################################
     achepa_xlmr_pretrained_path = '/pvc/raytune_ccs_codie/achepa_original_xlmr/_inner_5c285a48_31_acc_grads=1,attention_dropout=0.1,batch_size=8,hidden_dropout=0.1,lr=2.5557e-05,num_training_steps=10,seed=42,w_2021-10-21_15-48-41/checkpoints/epoch=24-step=4974.ckpt'
     codie_xlmr_pretrained_path = '/pvc/raytune_ccs_codie/codie_original_xlmr/_inner_c4c1ef8a_38_acc_grads=1,attention_dropout=0.1,batch_size=8,hidden_dropout=0.5,lr=7.3718e-05,num_training_steps=10,seed=42,w_2021-10-21_14-26-04/checkpoints/epoch=5-step=497.ckpt'
-    mimic_xlmr_pretrained_path = '/pvc/raytune_ccs_codie/mimic_original_xlmr/_inner_7bb9f1aa_6_acc_grads=8,attention_dropout=0.5,batch_size=8,hidden_dropout=0.3,lr=6.4523e-05,num_training_steps=10,seed=42,wa_2021-11-26_15-47-00/checkpoints/epoch=39-step=15479.ckpt'
+    mimic_xlmr_pretrained_path = '/pvc/raytune_ccs_codie/clinical_english_V1_None_xlmr/_inner_df259ede_49_acc_grads=4,attention_dropout=0.1,batch_size=8,hidden_dropout=0.1,lr=4.5509e-05,seed=42,warmup_steps=0_2023-04-21_07-09-42/checkpoints/epoch=59-step=11639.ckpt'
     mimic_achepa_xlmr_pretrained_path = "/pvc/raytune_ccs_codie/english_greek_V2_None_xlmr/_inner_b8de7b1e_9_acc_grads=4,attention_dropout=0.5,batch_size=8,hidden_dropout=0.1,lr=6.3152e-05,num_training_steps=10,seed=42,wa_2021-12-08_15-46-20/checkpoints/epoch=32-step=1649.ckpt"
     mimic_codie_xlmr_pretrained_path = "/pvc/raytune_ccs_codie/english_spanish_V2_None_xlmr/_inner_bccb5784_21_acc_grads=1,attention_dropout=0.3,batch_size=8,hidden_dropout=0.3,lr=5.0918e-05,num_training_steps=10,seed=42,w_2021-12-08_17-25-22/checkpoints/epoch=18-step=1557.ckpt"
     achepa_mimic_xlmr_pretrained_model_path = '/pvc/raytune_ccs_codie/greek_english_None_xlmr/_inner_87a70776_49_acc_grads=4,attention_dropout=0.3,batch_size=8,hidden_dropout=0.1,lr=3.8818e-05,num_training_steps=10,seed=42,w_2021-11-30_07-39-02/checkpoints/epoch=50-step=25098.ckpt'
@@ -180,7 +191,8 @@ if __name__  == "__main__":
     # else choose path to best model to continue training 
     # from model_path
     '''
-    pretrained_model_path = None 
+    #pretrained_model_path = None 
+    pretrained_model_path = mimic_xlmr_pretrained_path 
 
 
     '''
@@ -205,6 +217,13 @@ if __name__  == "__main__":
             dataset_name = f"achepa_{translator_data_selector}"
         else:
              dataset_name = f"achepa_original"
+        experiment_name = f"{dataset_name}_{mname}"
+
+    elif language == 'portuguese':
+        if translator_data_selector is not None:
+            dataset_name = f"brazilian_{translator_data_selector}"
+        else:
+            dataset_name = f"brazilian_original"
         experiment_name = f"{dataset_name}_{mname}"
 
     else: 

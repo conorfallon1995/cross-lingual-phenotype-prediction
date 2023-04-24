@@ -7,8 +7,8 @@ from transformers import get_linear_schedule_with_warmup
 from sklearn.metrics import roc_auc_score as auroc
 from pytorch_lightning.metrics.classification import F1
 import sys
-sys.path.append('/pvc/')
-import  src.utils.utils as utils
+sys.path.append('/pvc/cross-lingual-phenotype-prediction')
+import experiments.src.utils.utils as utils
 from ray import tune
 from torch.utils.data import TensorDataset, DataLoader, RandomSampler, SequentialSampler
 from pytorch_lightning.callbacks import ModelCheckpoint

@@ -20,6 +20,6 @@ def get_data_codiesp(path):
     return codiesp_dia, codiesp_proc
 
 if __name__ == '__main__':
-    path = '/home/neuron/Documents/codiesp/final_dataset_v4_to_publish/{}/{}'
+    path = '/pvc/final_dataset_v4_to_publish/{}/{}'
     codiesp_dia, codiesp_proc = get_data_codiesp(path)
     pass
