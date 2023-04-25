@@ -1,0 +1,334 @@
+Intestinal infection
+Tuberculosis
+Urinary tract infections
+Other specified and unspecified diseases of kidney and ureters
+Other specified and unspecified diseases of bladder and urethra
+Inflammatory conditions of male genital organs
+Other specified eye disorders
+Bacterial infections
+Other specified and unspecified endocrine disorders
+Septicemia
+Sexually transmitted infections (excluding HIV and hepatitis)
+Viral infection
+Anal and rectal conditions
+Parasitic, other specified and unspecified infections
+Hepatitis
+HIV infection
+Cornea and external disease
+Fungal infections
+Diseases of mouth; excluding dental
+Inflammatory diseases of female pelvic organs
+Esophageal disorders
+Sequela of specified infectious disease conditions
+Head and neck cancers - lip and oral cavity
+Head and neck cancers - salivary gland
+Head and neck cancers - tonsils
+Head and neck cancers - throat
+Head and neck cancers - hypopharyngeal
+Gastrointestinal cancers - esophagus
+Gastrointestinal cancers - stomach
+Gastrointestinal cancers - small intestine
+Gastrointestinal cancers - colorectal
+Gastrointestinal cancers - anus
+Gastrointestinal cancers - liver
+Gastrointestinal cancers - bile duct
+Endocrine system cancers - pancreas
+Head and neck cancers - all other types
+Head and neck cancers - laryngeal
+Respiratory cancers
+Bone cancer
+Skin cancers - melanoma
+Skin cancers - all other types
+Skin cancers - basal cell carcinoma
+Skin cancers - squamous cell carcinoma
+Nervous system cancers - all other types
+Gastrointestinal cancers - all other types
+Gastrointestinal cancers - peritoneum
+Sarcoma
+Breast cancer - all other types
+Female reproductive system cancers - vagina
+Female reproductive system cancers - cervix
+Female reproductive system cancers - endometrium
+Female reproductive system cancers - uterus
+Female reproductive system cancers - ovary
+Male reproductive system cancers - penis
+Male reproductive system cancers - prostate
+Male reproductive system cancers - testis
+Male reproductive system cancers - all other types
+Urinary system cancers - kidney
+Urinary system cancers - ureter and renal pelvis
+Urinary system cancers - bladder
+Urinary system cancers - urethra
+Head and neck cancers - eye
+Nervous system cancers - brain
+Endocrine system cancers - thyroid
+Endocrine system cancers - adrenocortical
+Endocrine system cancers - all other types
+Endocrine system cancers - parathyroid
+Cancer of other sites
+Secondary malignancies
+Malignant neoplasm, unspecified
+Hodgkin lymphoma
+Non-Hodgkin lymphoma
+Multiple myeloma
+Leukemia - acute lymphoblastic leukemia (ALL)
+Leukemia - chronic lymphocytic leukemia (CLL)
+Leukemia - all other types
+Leukemia - chronic myeloid leukemia (CML)
+Benign neoplasms
+Neoplasms of unspecified nature or uncertain behavior
+Myelodysplastic syndrome (MDS)
+Nutritional anemia
+Hemolytic anemia
+Sickle cell trait/anemia
+Aplastic anemia
+Acute posthemorrhagic anemia
+Coagulation and hemorrhagic disorders
+Diseases of white blood cells
+Other specified and unspecified hematologic conditions
+Immunity disorders
+Thyroid disorders
+Diabetes mellitus with complication
+Diabetes mellitus without complication
+Pituitary disorders
+Malnutrition
+Nutritional deficiencies
+Obesity
+Other specified and unspecified nutritional and metabolic disorders
+Disorders of lipid metabolism
+Cystic fibrosis
+Fluid and electrolyte disorders
+Neurocognitive disorders
+Miscellaneous mental and behavioral disorders/conditions
+Alcohol-related disorders
+Mental and substance use disorders in remission
+Opioid-related disorders
+Cannabis-related disorders
+Stimulant-related disorders
+Tobacco-related disorders
+Other specified substance-related disorders
+Schizophrenia spectrum and other psychotic disorders
+Bipolar and related disorders
+Depressive disorders
+Other specified and unspecified mood disorders
+Anxiety and fear-related disorders
+Trauma- and stressor-related disorders
+Somatic disorders
+Feeding and eating disorders
+Personality disorders
+Disruptive, impulse-control and conduct disorders
+Neurodevelopmental disorders
+Meningitis
+Exposure, encounters, screening or contact with infectious disease
+Paralysis (other than cerebral palsy)
+Encephalitis
+CNS abscess
+Other specified nervous system disorders
+Other specified hereditary and degenerative nervous system conditions
+Parkinson`s disease
+Multiple sclerosis
+Epilepsy; convulsions
+Headache; including migraine
+Transient cerebral ischemia
+Sleep wake disorders
+Nerve and nerve root disorders
+Polyneuropathies
+Myopathies
+Drug induced or toxic related condition
+Nervous system pain and pain syndromes
+Postprocedural or postoperative nervous system complication
+Oculofacial plastics and orbital conditions
+Uveitis and ocular inflammation
+Glaucoma
+Cataract and other lens disorders
+Retinal and vitreous conditions
+Neuro-ophthalmology
+Strabismus
+Refractive error
+Blindness and vision defects
+Postprocedural or postoperative eye complication
+Other specified and unspecified disorders of the ear
+Otitis media
+Diseases of inner ear and related conditions
+Hearing loss
+Chronic rheumatic heart disease
+Essential hypertension
+Hypertension with complications and secondary hypertension
+Coronary atherosclerosis and other heart disease
+Acute myocardial infarction
+Complications of acute myocardial infarction
+Acute pulmonary embolism
+Pulmonary heart disease
+Pericarditis and pericardial disease
+Endocarditis and endocardial disease
+Nonrheumatic and unspecified valve disorders
+Myocarditis and cardiomyopathy
+Conduction disorders
+Cardiac arrest and ventricular fibrillation
+Cardiac dysrhythmias
+Heart failure
+Other and ill-defined heart disease
+Acute hemorrhagic cerebrovascular disease
+Cerebral infarction
+Occlusion or stenosis of precerebral or cerebral arteries without infarction
+Other and ill-defined cerebrovascular disease
+Sequela of cerebral infarction and other cerebrovascular disease
+Peripheral and visceral vascular disease
+Arterial dissections
+Aortic; peripheral; and visceral artery aneurysms
+Aortic and peripheral arterial embolism or thrombosis
+Other specified and unspecified circulatory disease
+Acute phlebitis; thrombophlebitis and thromboembolism
+Varicose veins of lower extremity
+Other specified diseases of veins and lymphatics
+Postthrombotic syndrome and venous insufficiency/hypertension
+Hypotension
+Gangrene
+Other specified upper respiratory infections
+Sinusitis
+Acute and chronic tonsillitis
+Influenza
+Pneumonia (except that caused by tuberculosis)
+Acute bronchitis
+Other specified and unspecified lower respiratory disease
+Allergic reactions
+Other specified and unspecified upper respiratory disease
+Chronic obstructive pulmonary disease and bronchiectasis
+Asthma
+Lung disease due to external agents
+Aspiration pneumonitis
+Respiratory failure; insufficiency; arrest
+Pleurisy, pleural effusion and pulmonary collapse
+Conditions due to neoplasm or the treatment of neoplasm
+Pneumothorax
+Mediastinal disorders
+Disorders of teeth and gingiva
+Gastroduodenal ulcer
+Gastrointestinal hemorrhage
+Gastritis and duodenitis
+Other specified and unspecified disorders of stomach and duodenum
+Intestinal obstruction and ileus
+Appendicitis and other appendiceal conditions
+Abdominal hernia
+Regional enteritis and ulcerative colitis
+Noninfectious gastroenteritis
+Gastrointestinal and biliary perforation
+Diverticulosis and diverticulitis
+Other specified and unspecified gastrointestinal disorders
+Hemorrhoids
+Peritonitis and intra-abdominal abscess
+Other specified and unspecified liver disease
+Noninfectious hepatitis
+Hepatic failure
+Biliary tract disease
+Pancreatic disorders (excluding diabetes)
+Postprocedural or postoperative digestive system complication
+Skin and subcutaneous tissue infections
+Other specified inflammatory condition of skin
+Contact dermatitis
+Spondylopathies/spondyloarthropathy (including infective)
+Other specified and unspecified skin disorders
+Pressure ulcer of skin
+Systemic lupus erythematosus and connective tissue disorders
+Vasculitis
+Non-pressure ulcer of skin
+Autoinflammatory syndromes
+Rheumatoid arthritis and related disease
+Juvenile arthritis
+Other specified joint disorders
+Osteoarthritis
+Acquired deformities (excluding foot)
+Musculoskeletal pain, not low back pain
+Disorders of jaw
+Scoliosis and other postural dorsopathic deformities
+Osteomyelitis
+Low back pain
+Muscle disorders
+Tendon and synovial disorders
+Other specified connective tissue disease
+Osteoporosis
+Other specified bone disease and musculoskeletal deformities
+Aseptic necrosis and osteonecrosis
+Nephritis; nephrosis; renal sclerosis
+Vesicoureteral reflux
+Acute and unspecified renal failure
+Chronic kidney disease
+Calculus of urinary tract
+Urinary incontinence
+Hyperplasia of prostate
+Other specified male genital disorders
+Male infertility
+Erectile dysfunction
+Nonmalignant breast conditions
+Endometriosis
+Prolapse of female genital organs
+Other specified female genital disorders
+Benign ovarian cyst
+Menstrual disorders
+Female infertility
+Molar pregnancy and other abnormal products of conception
+Spontaneous abortion and complications of spontaneous abortion
+Hypertension and hypertensive-related conditions complicating pregnancy; childbirth; and the puerperium
+Other specified complications in pregnancy
+Polyhydramnios and other problems of amniotic cavity
+Maternal intrauterine infection
+Early or threatened labor
+Uncomplicated pregnancy, delivery or puerperium
+Hemorrhage after first trimester
+Complications specified during childbirth
+Complications specified during the puerperium
+Short gestation; low birth weight; and fetal growth retardation
+Hemorrhagic and hematologic disorders of newborn
+Other specified and unspecified perinatal conditions
+Neonatal acidemia and hypoxia
+Neonatal cerebral disorders
+Nervous system congenital anomalies
+Congenital malformations of eye, ear, face, neck
+Cardiac and circulatory congenital anomalies
+Respiratory congenital malformations
+Cleft lip or palate
+Digestive congenital anomalies
+Genitourinary congenital anomalies
+Musculoskeletal congenital conditions
+Other specified and unspecified congenital anomalies
+Chromosomal abnormalities
+Circulatory signs and symptoms
+Respiratory signs and symptoms
+Nonspecific chest pain
+Abdominal pain and other digestive/abdomen signs and symptoms
+Nausea and vomiting
+Dysphagia
+Skin/Subcutaneous signs and symptoms
+Nervous system signs and symptoms
+Other general signs and symptoms
+Genitourinary signs and symptoms
+Hematuria
+Coma; stupor; and brain damage
+General sensation/perception signs and symptoms
+Symptoms of mental and substance use conditions
+Fever
+Malaise and fatigue
+Syncope
+Shock
+Abnormal findings without diagnosis
+Proteinuria
+Fracture of torso, initial encounter
+Other unspecified injury
+Fracture of the upper limb, initial encounter
+Fracture of the lower limb (except hip), initial encounter
+External cause codes: unspecified mechanism
+Burn and corrosion, initial encounter
+Complication of transplanted organs or tissue, initial encounter
+External cause codes: complications of medical and surgical care, initial encounter
+Resistance to antimicrobial drugs
+Personal/family history of disease
+Maternal outcome of delivery
+Gestational weeks
+Other aftercare encounter
+Other specified status
+Socioeconomic/psychosocial factors
+Menopausal disorders
+Acquired absence of limb or organ
+Organ transplant status
+Implant, device or graft related encounter
+Contraceptive and procreative management
