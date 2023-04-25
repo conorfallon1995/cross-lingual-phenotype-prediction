@@ -57,8 +57,9 @@ def tune_adapter(config,
         train_dataset, dev_dataset, _, labels = utils.get_datav2(data_paths,
                                                                 dataset_name=dataset_name)
 
-        task_adapter_name = f'codiesp_diagnosis_v4'
+        #task_adapter_name = f'codiesp_diagnosis_v4'
         #task_adapter_name = f'brazilian_codiesp_filtered'
+        task_adapter_name = 'mimic_codiesp_filtered'
 
 
         codieSP_adapter = AdapterSetup(task_adapter_path=task_adapter_path,
@@ -96,11 +97,11 @@ if __name__ == "__main__":
                 ray.init(address=os.environ["RAY_HEAD_SERVICE_HOST"] + ":6379")
         
         # Is it the first training of the task adapter
-        is_first = True
+        is_first = False
 
         # model name SLA(single language)
-        mname = 'SLA'
-        #mname = 'MLA' 
+        #mname = 'SLA'
+        mname = 'MLA' 
 
         # base model where adapters are intergrated
         model_name = 'xlm-roberta-base'
@@ -115,8 +116,8 @@ if __name__ == "__main__":
         filter_set_name = 'ccs_codie'
 
         # name of the dataset to train with
-        eval_dataset = 'brazilian'
-        #eval_dataset = 'codie'
+        #eval_dataset = 'brazilian'
+        eval_dataset = 'codie'
         
         '''
          if it is not the first run include the other 
@@ -127,12 +128,13 @@ if __name__ == "__main__":
         '''
         #languages = ['spanish']
         #languages = ['english']
-        #languages = ['english', 'spanish']
-        languages = ['portuguese']
+        #languages = ['english', 'spanish', 'portuguese']
+        #languages = ['portuguese']
+        languages = ['english', 'spanish']
         
         #language of the current dataset to continue training and evaluation
-        #language = 'spanish'
-        language = 'portuguese'
+        language = 'spanish'
+        #language = 'portuguese'
         
         # just a variable for the naming of the experiments
         mla_order = '_'.join(languages)
@@ -159,9 +161,9 @@ if __name__ == "__main__":
                 # 'validation_data_path_codie': f"/pvc/data/paper_data/codiesp_CCS_fold_1_dev.csv",
                 # 'test_data_path_codie': f"/pvc/data/paper_data/codiesp_CCS_fold_1_test.csv",
 
-                'train_data_path_brazilian': f"/pvc/cross-lingual-phenotype-prediction/dataset_creation/output_files/brazilian_codiesp_filtered_CCS_fold_1_train.csv",
-                'validation_data_path_brazilian': f"/pvc/cross-lingual-phenotype-prediction/dataset_creation/output_files/brazilian_codiesp_filtered_CCS_fold_1_dev.csv",
-                'test_data_path_brazilian': f"/pvc/cross-lingual-phenotype-prediction/dataset_creation/output_files/brazilian_codiesp_filtered_CCS_fold_1_test.csv",
+                'train_data_path_brazilian': f"/pvc/cross-lingual-phenotype-prediction/dataset_creation/output_files/v3_brazilian_codiesp_filtered_CCS__fold_1_train.csv",
+                'validation_data_path_brazilian': f"/pvc/cross-lingual-phenotype-prediction/dataset_creation/output_files/v3_brazilian_codiesp_filtered_CCS__fold_1_dev.csv",
+                'test_data_path_brazilian': f"/pvc/cross-lingual-phenotype-prediction/dataset_creation/output_files/v3_brazilian_codiesp_filtered_CCS__fold_1_test.csv",
 
                 'train_data_path_codie': f"/pvc/cross-lingual-phenotype-prediction/dataset_creation/output_files/codiesp_CCS_train.csv",
                 'validation_data_path_codie': f"/pvc/cross-lingual-phenotype-prediction/dataset_creation/output_files/codiesp_CCS_dev.csv",
@@ -183,13 +185,14 @@ if __name__ == "__main__":
         
         # My best paths
         task_adapter_mimic_sla_path = '/pvc/raytune_ccs_codie/tune_adapter_mimic_original_SLA_TEST/_inner_0947b688_1_first_acc_steps=2,first_attention_dropout=0.1,first_batch_size=8,first_hidden_dropout=0.1,first_lr=0.0001,first__2023-03-06_12-25-52/training_output_en_0.0001_0/checkpoint-55764'
-        task_adapter_mimic_codie_mla_path = '/pvc/raytune_ccs_codie/tune_adapter_english_spanish_diagnosis_MLA_TEST/_inner_fffa38c0_14_first_acc_steps=0,first_attention_dropout=0,first_batch_size=8,first_hidden_dropout=0,first_lr=0,first_num_epoc_2023-03-10_12-01-26/training_output_es_0_0.0072789367740584785'
+        task_adapter_mimic_codie_mla_path = '/pvc/raytune_ccs_codie/tune_adapter_english_spanish_diagnosis_MLA_TEST/_inner_fffa38c0_14_first_acc_steps=0,first_attention_dropout=0,first_batch_size=8,first_hidden_dropout=0,first_lr=0,first_num_epoc_2023-03-10_12-01-26/training_output_es_0_0.0072789367740584785/checkpoint-120'
         if is_first:
                 # first training
                 task_adapter_path = None
         else:
                 # select path of best model to continue training from 
                 task_adapter_path = task_adapter_mimic_sla_path
+                #task_adapter_path = task_adapter_mimic_codie_mla_path
 
 
 
