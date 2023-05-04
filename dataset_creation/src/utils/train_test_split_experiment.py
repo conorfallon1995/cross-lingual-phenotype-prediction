@@ -32,6 +32,18 @@ def brazilian_label_to_tensor(data, label_to_pos):
 
     return tmp
 
+def swedish_label_to_tensor(data, label_to_pos):
+
+    tmp = np.zeros((len(data), 
+                    len(label_to_pos)))
+    c = 0
+    for idx, row in data.iterrows():
+        for code in ast.literal_eval(row['labels']):
+            tmp[c, label_to_pos[code]] = 1
+        c += 1
+
+    return tmp
+
 
 def stratified_sampling_multilearn(df, y, train_data_output_path): 
 

@@ -114,10 +114,11 @@ if __name__  == "__main__":
     #the variable is used for experiment naming
     #language = 'clinical_spanish_V3'
     #language = 'clinical_brazilian_V1'
-    language = 'spanish'
+    #language = 'spanish'
+    language = 'swedish'
     
     # dataset to train or evaluate with
-    eval_dataset = 'codie' #'brazilian' #'codie' #'mimic'
+    eval_dataset = 'swedish' #'codie' #'brazilian' #'codie' #'mimic'
 
     # model naming
     mname = 'xlmr'
@@ -147,6 +148,10 @@ if __name__  == "__main__":
                 'train_data_path_codie': f"/pvc/cross-lingual-phenotype-prediction/dataset_creation/output_files/codiesp_CCS_train.csv",
                 'validation_data_path_codie': f"/pvc/cross-lingual-phenotype-prediction/dataset_creation/output_files/codiesp_CCS_dev.csv",
                 'test_data_path_codie': f"/pvc/cross-lingual-phenotype-prediction/dataset_creation/output_files/codiesp_CCS_test.csv",
+                
+                'train_data_path_swedish': f"/pvc/cross-lingual-phenotype-prediction/dataset_creation/output_files/v1_swedish_codiesp_filtered_CCS__fold_1_train.csv",
+                'validation_data_path_swedish': f"/pvc/cross-lingual-phenotype-prediction/dataset_creation/output_files/v1_swedish_codiesp_filtered_CCS__fold_1_dev.csv",
+                'test_data_path_swedish': f"/pvc/cross-lingual-phenotype-prediction/dataset_creation/output_files/v1_swedish_codiesp_filtered_CCS__fold_1_test.csv",
 
                 'all_labels_path': f"/pvc/cross-lingual-phenotype-prediction/dataset_creation/output_files/{filter_set_name}_labels.pcl",
                 'eval_dataset': eval_dataset,
@@ -226,6 +231,12 @@ if __name__  == "__main__":
             dataset_name = f"brazilian_original"
         experiment_name = f"{dataset_name}_{mname}"
 
+    elif language == 'swedish':
+        if translator_data_selector is not None:
+            dataset_name = f"swedish_{translator_data_selector}"
+        else:
+            dataset_name = f"swedish_original"
+        experiment_name = f"{dataset_name}_{mname}"
     else: 
         dataset_name = f"{language}_{translator_data_selector}"
         experiment_name = f"{dataset_name}_{mname}"

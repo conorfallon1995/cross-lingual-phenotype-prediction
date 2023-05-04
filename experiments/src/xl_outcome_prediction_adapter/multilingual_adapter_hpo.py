@@ -48,7 +48,8 @@ def tune_adapter(config,
         language_codes = {'spanish':'es',
                         'english':'en', 
                         'greek':'el',
-                        'portuguese':'mlm'
+                        'portuguese':'mlm',
+                        'swedish':'mlm'
                         }
 
         utils.set_seeds(seed=config['seed'])
@@ -59,7 +60,8 @@ def tune_adapter(config,
 
         #task_adapter_name = f'codiesp_diagnosis_v4'
         #task_adapter_name = f'brazilian_codiesp_filtered'
-        task_adapter_name = 'mimic_codiesp_filtered'
+        #task_adapter_name = f'swedish_codiesp_filtered'
+        task_adapter_name = f'mimic_codiesp_filtered'
 
 
         codieSP_adapter = AdapterSetup(task_adapter_path=task_adapter_path,
@@ -117,7 +119,8 @@ if __name__ == "__main__":
 
         # name of the dataset to train with
         #eval_dataset = 'brazilian'
-        eval_dataset = 'codie'
+        #eval_dataset = 'codie'
+        eval_dataset = 'swedish'
         
         '''
          if it is not the first run include the other 
@@ -127,13 +130,13 @@ if __name__ == "__main__":
          languages = ['english', 'spanish']
         '''
         #languages = ['spanish']
-        #languages = ['english']
+        #languages = ['swedish']
         #languages = ['english', 'spanish', 'portuguese']
         #languages = ['portuguese']
-        languages = ['english', 'spanish']
+        languages = ['english', 'swedish']
         
         #language of the current dataset to continue training and evaluation
-        language = 'spanish'
+        language = 'swedish'
         #language = 'portuguese'
         
         # just a variable for the naming of the experiments
@@ -168,6 +171,10 @@ if __name__ == "__main__":
                 'train_data_path_codie': f"/pvc/cross-lingual-phenotype-prediction/dataset_creation/output_files/codiesp_CCS_train.csv",
                 'validation_data_path_codie': f"/pvc/cross-lingual-phenotype-prediction/dataset_creation/output_files/codiesp_CCS_dev.csv",
                 'test_data_path_codie': f"/pvc/cross-lingual-phenotype-prediction/dataset_creation/output_files/codiesp_CCS_test.csv",
+                
+                'train_data_path_swedish': f"/pvc/cross-lingual-phenotype-prediction/dataset_creation/output_files/v1_swedish_codiesp_filtered_CCS__fold_1_train.csv",
+                'validation_data_path_swedish': f"/pvc/cross-lingual-phenotype-prediction/dataset_creation/output_files/v1_swedish_codiesp_filtered_CCS__fold_1_dev.csv",
+                'test_data_path_swedish': f"/pvc/cross-lingual-phenotype-prediction/dataset_creation/output_files/v1_swedish_codiesp_filtered_CCS__fold_1_test.csv",
 
                 'all_labels_path': f"/pvc/cross-lingual-phenotype-prediction/dataset_creation/output_files/{filter_set_name}_labels.pcl",
                 'eval_dataset': eval_dataset,
@@ -185,7 +192,15 @@ if __name__ == "__main__":
         
         # My best paths
         task_adapter_mimic_sla_path = '/pvc/raytune_ccs_codie/tune_adapter_mimic_original_SLA_TEST/_inner_0947b688_1_first_acc_steps=2,first_attention_dropout=0.1,first_batch_size=8,first_hidden_dropout=0.1,first_lr=0.0001,first__2023-03-06_12-25-52/training_output_en_0.0001_0/checkpoint-55764'
+        task_adapter_codie_sla_path = '/pvc/raytune_ccs_codie/tune_adapter_codie_original_SLA_TEST/_inner_c0c450ee_1_first_acc_steps=2,first_attention_dropout=0.1,first_batch_size=8,first_hidden_dropout=0.1,first_lr=0.0001,first__2023-04-24_13-05-57/training_output_es_0.0001_0/checkpoint-1804'
+        task_adapter_brazilian_sla_path = '/pvc/raytune_ccs_codie/tune_adapter_portuguese_diagnosis_MLA/_inner_5aa007a8_31_first_acc_steps=2,first_attention_dropout=0.1,first_batch_size=8,first_hidden_dropout=0.1,first_lr=0.0089499,fi_2023-04-19_15-44-16/training_output_mlm_0.008949922928507265_0/checkpoint-252'
+        task_adapter_swedish_sla_path = '/pvc/raytune_ccs_codie/tune_adapter_swedish_original_SLA_TEST/_inner_fdb01c1e_7_first_acc_steps=8,first_attention_dropout=0.3,first_batch_size=8,first_hidden_dropout=0.3,first_lr=0.0092856,fir_2023-05-03_13-33-26/training_output_mlm_0.009285612214373691_0/checkpoint-9'
+
         task_adapter_mimic_codie_mla_path = '/pvc/raytune_ccs_codie/tune_adapter_english_spanish_diagnosis_MLA_TEST/_inner_fffa38c0_14_first_acc_steps=0,first_attention_dropout=0,first_batch_size=8,first_hidden_dropout=0,first_lr=0,first_num_epoc_2023-03-10_12-01-26/training_output_es_0_0.0072789367740584785/checkpoint-120'
+
+        task_adapter_mimic_codie_brazilian_mla_path = '/pvc/raytune_ccs_codie/tune_adapter_english_spanish_portuguese_diagnosis_MLA_TEST/_inner_a954ed3a_1_first_acc_steps=0,first_attention_dropout=0,first_batch_size=8,first_hidden_dropout=0,first_lr=0,first_num_epoch_2023-04-24_14-02-34/training_output_es_0_1e-05/checkpoint-1568'
+        
+
         if is_first:
                 # first training
                 task_adapter_path = None
@@ -193,7 +208,6 @@ if __name__ == "__main__":
                 # select path of best model to continue training from 
                 task_adapter_path = task_adapter_mimic_sla_path
                 #task_adapter_path = task_adapter_mimic_codie_mla_path
-
 
 
         '''
@@ -236,6 +250,16 @@ if __name__ == "__main__":
                 else:
                         if mname == 'SLA':
                                 dataset_name = f"brazilian_original"
+                        elif mname == 'MLA': 
+                                dataset_name = f"{mla_order}_{task}"
+                        experiment_name = f"{dataset_name}_{mname}"
+
+        elif language == 'swedish':
+                if translator_data_selector is not None:
+                        dataset_name = f"swedish_{translator_data_selector}"
+                else:
+                        if mname == 'SLA':
+                                dataset_name = f"swedish_original"
                         elif mname == 'MLA': 
                                 dataset_name = f"{mla_order}_{task}"
                         experiment_name = f"{dataset_name}_{mname}"

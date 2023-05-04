@@ -26,9 +26,9 @@ LANGUAGE_ADAPTERS = {'english': "en/wiki@ukp",
                     'spanish': "es/wiki@ukp", 
                     'greek': "el/wiki@ukp",
                     #'portuguese': "pt/wiki@ukp"
-                    'portuguese': "/pvc/tasks/pt_wiki_test/checkpoint-250000/mlm"
+                    'portuguese': "/pvc/tasks/pt_wiki_test/checkpoint-250000/mlm",
+                    'swedish': "/pvc/tasks/sv_wiki_test/checkpoint-250000/mlm"
                     #'portuguese': "/pvc/adapters/pt_adapter"
-
                     }
 
 
