@@ -71,6 +71,32 @@ def stratified_sampling_multilearn(df, y, train_data_output_path):
         
         nfold = nfold + 1
 
+def stratified_sampling_multilearn_sampling(df, y, train_data_output_path): 
+
+    from skmultilearn.model_selection import iterative_train_test_split
+    from skmultilearn.model_selection import IterativeStratification
+
+    df = df.reset_index(drop=True).sample(frac=1, random_state=42)
+    #k_fold = IterativeStratification(n_splits=3, order=1, random_state=42)
+    k_fold = IterativeStratification(n_splits=3, order=1)
+
+    nfold = 1 
+    for train, test in k_fold.split(df, y):
+        df_train = df.iloc[train]
+        y_train = y[train, :]
+
+        df_test = df.iloc[test]
+        y_test = y[test, :]
+        val_tmp, y_val, df_test_tmp, y_test = iterative_train_test_split(df_test.values, y_test, test_size = 0.5,)
+        df_val = pd.DataFrame(val_tmp, columns=df_test.columns)
+        df_test = pd.DataFrame(df_test_tmp, columns=df_test.columns)
+
+        df_train.to_csv(f"{train_data_output_path}_fold_{nfold}_train.csv", index=False)
+        df_val.to_csv(f"{train_data_output_path}_fold_{nfold}_dev.csv", index=False)
+        df_test.to_csv(f"{train_data_output_path}_fold_{nfold}_test.csv", index=False)
+        
+        nfold = nfold + 1
+
 def load_mimic_paper_split(df, train_data_output_path):
 
     dev_patients = pd.read_csv('/pvc/cross-lingual-phenotype-prediction/dataset_creation/input_files/ids_mimic_dev.csv')

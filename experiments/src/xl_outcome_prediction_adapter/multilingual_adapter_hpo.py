@@ -100,11 +100,11 @@ if __name__ == "__main__":
                 ray.init(address=os.environ["RAY_HEAD_SERVICE_HOST"] + ":6379")
         
         # Is it the first training of the task adapter
-        is_first = False
+        is_first = True
 
         # model name SLA(single language)
-        #mname = 'SLA'
-        mname = 'MLA' 
+        mname = 'SLA'
+        #mname = 'MLA' 
 
         # base model where adapters are intergrated
         model_name = 'xlm-roberta-base'
@@ -122,7 +122,8 @@ if __name__ == "__main__":
         #eval_dataset = 'brazilian'
         #eval_dataset = 'codie'
         #eval_dataset = 'swedish'
-        eval_dataset = 'achepa'
+        #eval_dataset = 'achepa'
+        eval_dataset = 'mimic'
         
         '''
          if it is not the first run include the other 
@@ -131,16 +132,16 @@ if __name__ == "__main__":
          second training is with CodiEsp 
          languages = ['english', 'spanish']
         '''
-        languages = ['english', 'spanish', 'portuguese', 'greek']
-        #languages = ['swedish']
-        #languages = ['english', 'portuguese', 'spanish']
-        #languages = ['portuguese']
+        #languages = ['english', 'spanish', 'portuguese', 'swedish', 'greek']
+        #languages = ['greek', 'english']
+        #languages = ['spanish', 'portuguese', 'english']
+        languages = ['english']
         #languages = ['english', 'spanish', 'swedish', 'portuguese']
         
         #language of the current dataset to continue training and evaluation
         #language = 'swedish'
         #language = 'portuguese'
-        language = 'greek'
+        language = 'english'
         
         # just a variable for the naming of the experiments
         mla_order = '_'.join(languages)
@@ -191,20 +192,26 @@ if __name__ == "__main__":
         #task_adapter_mimic_codie_mla_path = '/pvc/raytune_ccs_codie/tune_adapter_english_spanish_MLA/_inner_b697bfc6_12_first_acc_steps=0,first_attention_dropout=0,first_batch_size=8,first_hidden_dropout=0,first_lr=0,first_num_epoc_2021-10-20_10-52-50/training_output_es_0_0.0011030338137158105/checkpoint-160'
         task_adapter_codie_sla_path = '/pvc/raytune_ccs_codie/tune_adapter_codie_original_SLA/_inner_b34ab760_27_first_acc_steps=2,first_attention_dropout=0.3,first_batch_size=8,first_hidden_dropout=0.1,first_lr=0.0076105,fi_2021-10-19_14-34-52/training_output_es_0.007610478516231566_0/checkpoint-205'
         task_adapter_achepa_mimic_mla_path = '/pvc/raytune_ccs_codie/tune_adapter_greek_english_diagnosis_MLA/_inner_3a0ea5a2_41_first_acc_steps=0,first_attention_dropout=0,first_batch_size=8,first_hidden_dropout=0,first_lr=0,first_num_epoc_2021-11-16_03-20-21/training_output_en_0_0.0017506470138346506/checkpoint-6176'
-        task_adapter_codie_mimic_mla_path = '/pvc/raytune_ccs_codie/tune_adapter_spanish_english_diagnosis_MLA/_inner_7ceb71c6_34_first_acc_steps=0,first_attention_dropout=0,first_batch_size=8,first_hidden_dropout=0,first_lr=0,first_num_epoc_2021-11-15_14-43-55/training_output_en_0_0.0008006564657455058/checkpoint-6957'
+        #task_adapter_codie_mimic_mla_path = '/pvc/raytune_ccs_codie/tune_adapter_spanish_english_diagnosis_MLA/_inner_7ceb71c6_34_first_acc_steps=0,first_attention_dropout=0,first_batch_size=8,first_hidden_dropout=0,first_lr=0,first_num_epoc_2021-11-15_14-43-55/training_output_en_0_0.0008006564657455058/checkpoint-6957'
         
         # My best paths
         task_adapter_mimic_sla_path = '/pvc/raytune_ccs_codie/tune_adapter_mimic_original_SLA_TEST/_inner_0947b688_1_first_acc_steps=2,first_attention_dropout=0.1,first_batch_size=8,first_hidden_dropout=0.1,first_lr=0.0001,first__2023-03-06_12-25-52/training_output_en_0.0001_0/checkpoint-55764'
         task_adapter_codie_sla_path = '/pvc/raytune_ccs_codie/tune_adapter_codie_original_SLA_TEST/_inner_c0c450ee_1_first_acc_steps=2,first_attention_dropout=0.1,first_batch_size=8,first_hidden_dropout=0.1,first_lr=0.0001,first__2023-04-24_13-05-57/training_output_es_0.0001_0/checkpoint-1804'
         task_adapter_brazilian_sla_path = '/pvc/raytune_ccs_codie/tune_adapter_portuguese_diagnosis_MLA/_inner_5aa007a8_31_first_acc_steps=2,first_attention_dropout=0.1,first_batch_size=8,first_hidden_dropout=0.1,first_lr=0.0089499,fi_2023-04-19_15-44-16/training_output_mlm_0.008949922928507265_0/checkpoint-252'
         task_adapter_swedish_sla_path = '/pvc/raytune_ccs_codie/tune_adapter_swedish_original_SLA_TEST/_inner_fdb01c1e_7_first_acc_steps=8,first_attention_dropout=0.3,first_batch_size=8,first_hidden_dropout=0.3,first_lr=0.0092856,fir_2023-05-03_13-33-26/training_output_mlm_0.009285612214373691_0/checkpoint-9'
+        task_adapter_achepa_sla_path = '/pvc/raytune_ccs_codie/tune_adapter_achepa_original_SLA_TEST/_inner_140f543e_14_first_acc_steps=1,first_attention_dropout=0.8,first_batch_size=8,first_hidden_dropout=0.3,first_lr=0.0044789,fi_2023-05-04_14-49-41/training_output_el_0.004478876035354823_0/checkpoint-400'
 
         task_adapter_mimic_codie_mla_path = '/pvc/raytune_ccs_codie/tune_adapter_english_spanish_diagnosis_MLA_TEST/_inner_fffa38c0_14_first_acc_steps=0,first_attention_dropout=0,first_batch_size=8,first_hidden_dropout=0,first_lr=0,first_num_epoc_2023-03-10_12-01-26/training_output_es_0_0.0072789367740584785/checkpoint-120'
         task_adapter_mimic_brazilian_mla_path = '/pvc/raytune_ccs_codie/tune_adapter_english_portuguese_diagnosis_MLA_TEST/_inner_021d9a0c_1_first_acc_steps=0,first_attention_dropout=0,first_batch_size=8,first_hidden_dropout=0,first_lr=0,first_num_epoch_2023-04-24_12-53-28/training_output_mlm_0_1e-05/checkpoint-2632'
         #task_adapter_mimic_swedish_mla_path = '/pvc/raytune_ccs_codie/tune_adapter_english_spanish_diagnosis_MLA_TEST/_inner_fffa38c0_14_first_acc_steps=0,first_attention_dropout=0,first_batch_size=8,first_hidden_dropout=0,first_lr=0,first_num_epoc_2023-03-10_12-01-26/training_output_es_0_0.0072789367740584785/checkpoint-120'
+        task_adapter_codie_brazilian_mla_path = '/pvc/raytune_ccs_codie/tune_adapter_spanish_portuguese_diagnosis_MLA_TEST/_inner_9e30983a_33_first_acc_steps=0,first_attention_dropout=0,first_batch_size=8,first_hidden_dropout=0,first_lr=0,first_num_epoc_2023-05-08_11-08-22/training_output_mlm_0_0.0006257019910912267/checkpoint-224'
 
         task_adapter_mimic_codie_swedish_mla_path = '/pvc/raytune_ccs_codie/tune_adapter_english_spanish_diagnosis_MLA_TEST/_inner_fffa38c0_14_first_acc_steps=0,first_attention_dropout=0,first_batch_size=8,first_hidden_dropout=0,first_lr=0,first_num_epoc_2023-03-10_12-01-26/training_output_es_0_0.0072789367740584785/checkpoint-120'
         task_adapter_mimic_codie_brazilian_mla_path = '/pvc/raytune_ccs_codie/tune_adapter_english_spanish_portuguese_diagnosis_MLA_TEST/_inner_a954ed3a_1_first_acc_steps=0,first_attention_dropout=0,first_batch_size=8,first_hidden_dropout=0,first_lr=0,first_num_epoch_2023-04-24_14-02-34/training_output_es_0_1e-05/checkpoint-1568'
+
+        task_adapter_mimic_codie_brazilian_greek_mla_path = '/pvc/raytune_ccs_codie/tune_adapter_english_spanish_portuguese_greek_diagnosis_MLA_TEST/_inner_618dfffe_42_first_acc_steps=0,first_attention_dropout=0,first_batch_size=8,first_hidden_dropout=0,first_lr=0,first_num_epoc_2023-05-04_19-18-43/training_output_el_0_0.0027644557823171927/checkpoint-475'
+        task_adapter_mimic_codie_swedish_brazilian_mla_path = '/pvc/raytune_ccs_codie/tune_adapter_english_spanish_swedish_portuguese_diagnosis_MLA_TEST/_inner_8e2972ae_1_first_acc_steps=0,first_attention_dropout=0,first_batch_size=8,first_hidden_dropout=0,first_lr=0,first_num_epoch_2023-05-04_12-52-41/training_output_mlm_0_1e-05/checkpoint-2296'
+        task_adapter_mimic_codie_brazilian_swedish_mla_path = '/pvc/raytune_ccs_codie/tune_adapter_english_spanish_portuguese_swedish_diagnosis_MLA_TEST/_inner_3c36c130_14_first_acc_steps=0,first_attention_dropout=0,first_batch_size=8,first_hidden_dropout=0,first_lr=0,first_num_epoc_2023-05-04_13-33-36/training_output_mlm_0_0.006367242027700415/checkpoint-64'
 
         if is_first:
                 # first training
@@ -213,7 +220,7 @@ if __name__ == "__main__":
                 # select path of best model to continue training from 
                 #task_adapter_path = task_adapter_mimic_sla_path
                 #task_adapter_path = task_adapter_mimic_brazilian_mla_path
-                task_adapter_path = task_adapter_mimic_codie_brazilian_mla_path
+                task_adapter_path = task_adapter_codie_brazilian_mla_path
 
 
         '''
