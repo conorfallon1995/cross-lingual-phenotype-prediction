@@ -11,13 +11,14 @@ import os
 CCS_PATH = '/pvc/UMLSParser/CIDoutputs copy'
 TEXT_PATH = '/pvc/brazilian/parsed_xmls/'
 #SWE_PATH = '/pvc/swe100k.tsv'
-SWE_PATH = '/pvc/test_out_swedish_mini.tsv'
+#SWE_PATH = '/pvc/test_out_swedish.tsv'
+SWE_PATH = '/pvc/output.tsv'
 
 
 if __name__== '__main__':
 
     # Use PART_3 to get smaller samples such that all datasets of equal size
-    SELECTOR = 'PART_3'
+    SELECTOR = 'PART_2'
     task = 'codie_CCS'
     icd_10_dxccsr_paths = '/pvc/cross-lingual-phenotype-prediction/dataset_creation/input_files/DXCCSR_v2021-2.csv'
     mimic_src_path = '/pvc/connor/mimic-iii-clinical-database-1.4/'
@@ -35,7 +36,9 @@ if __name__== '__main__':
         # Create an empty list to hold the data for the DataFrame
         data = []
         # Iterate through the CCS_PATH directory
-        df = pd.read_csv(SWE_PATH)
+        #df = pd.read_csv(SWE_PATH)
+        df = pd.read_csv(SWE_PATH, error_bad_lines=False, warn_bad_lines=True)
+        
         for index, row in df.iterrows():
             # Extract the first 4 characters of the filename as the patient ID
             patient_id = row['patientnr']
@@ -69,17 +72,17 @@ if __name__== '__main__':
         # df = df[~mask]
 
         # remove rows with '[nan]' in the 'labels' column
-        df.to_csv('swedish_tmp_0.csv', index=False)
+        df.to_csv('v2_swedish_tmp_0.csv', index=False)
       
     if SELECTOR in ['PART_2', 'ALL']:
 
-        swedish_df = pd.read_csv('/pvc/cross-lingual-phenotype-prediction/dataset_creation/src/swedish/swedish_tmp_0.csv')
+        swedish_df = pd.read_csv('/pvc/cross-lingual-phenotype-prediction/dataset_creation/src/swedish/v2_swedish_tmp_0.csv')
 
         if task == 'codie_CCS':
             codie_labels = codie_utils.load_codie_labels(labels_output_path)
             #mimic_df_notes = mimic_utils.map_filter_ccs(brazilian_df, codie_labels, icd_10_dxccsr_paths)
             mimic_df_notes = swedish_df
-            dataset_name = 'v1_swedish_codiesp_filtered_CCS_'
+            dataset_name = 'large_swedish_codiesp_filtered_CCS_'
             labels = codie_labels
         '''
         elif task == 'achepa_diagnoses': 
