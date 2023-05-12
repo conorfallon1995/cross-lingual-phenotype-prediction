@@ -8,7 +8,7 @@ import pandas as pd
 
 if __name__== '__main__':
 
-    SELECTOR = 'PART_2'
+    SELECTOR = 'PART_1'
     task = 'codie_CCS'
     icd_10_dxccsr_paths = '/pvc/cross-lingual-phenotype-prediction/dataset_creation/input_files/DXCCSR_v2021-2.csv'
     mimic_src_path = '/pvc/connor/mimic-iii-clinical-database-1.4/'
