@@ -39,9 +39,13 @@ class codiespDataset():
 
     logging.warning(f' number of samples: {dataset.num_rows}')
     #f'{self.data_path}/all_codes_cutoff.json'
-    with open(self.data_paths['all_labels_path'], 'rb') as f: 
-      #all_labels = json.load(f)['all_D_codes']
-      all_labels = pickle.load(f)
+    if self.data_paths['all_labels_path'].endswith('.txt'):
+      with open(self.data_paths['all_labels_path'], 'r') as f:
+        all_labels = [row.strip() for row in f]
+    else:
+      with open(self.data_paths['all_labels_path'], 'rb') as f: 
+        #all_labels = json.load(f)['all_D_codes']
+        all_labels = pickle.load(f)
     return dataset, all_labels
 
   def encode_batch(self, batch):

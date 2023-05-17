@@ -61,8 +61,9 @@ def tune_adapter(config,
         #task_adapter_name = f'codiesp_diagnosis_v4'
         #task_adapter_name = f'brazilian_codiesp_filtered'
         #task_adapter_name = f'swedish_codiesp_filtered'
-        task_adapter_name = f'mimic_codiesp_filtered'
+        #task_adapter_name = f'mimic_codiesp_filtered'
         #task_adapter_name = f'achepa_codiesp_filtered'
+        task_adapter_name = f'mimic_intersection_filtered'
 
 
         codieSP_adapter = AdapterSetup(task_adapter_path=task_adapter_path,
@@ -100,12 +101,12 @@ if __name__ == "__main__":
                 ray.init(address=os.environ["RAY_HEAD_SERVICE_HOST"] + ":6379")
         
         # Is it the first training of the task adapter
-        is_first = False
+        is_first = True
 
         # model name SLA(single language)
-        #mname = 'SLA'
+        mname = 'SLA'
         #mname = 'SLA_large'
-        mname = 'MLA' 
+        #mname = 'MLA' 
 
         # base model where adapters are intergrated
         model_name = 'xlm-roberta-base'
@@ -117,14 +118,15 @@ if __name__ == "__main__":
         translator_data_selector = None #'Opus_es_en_concat_notes'
         
         # filename to load labels
-        filter_set_name = 'ccs_codie'
+        #filter_set_name = 'ccs_codie'
+        filter_set_name = 'ccs_intersection'
 
         # name of the dataset to train with
         #eval_dataset = 'brazilian'
         #eval_dataset = 'codie'
-        eval_dataset = 'swedish'
+        #eval_dataset = 'swedish'
         #eval_dataset = 'achepa'
-        #eval_dataset = 'mimic'
+        eval_dataset = 'mimic'
         
         '''
          if it is not the first run include the other 
@@ -136,13 +138,13 @@ if __name__ == "__main__":
         #languages = ['english', 'spanish', 'portuguese', 'swedish', 'greek']
         #languages = ['greek', 'english']
         #languages = ['spanish', 'portuguese', 'greek']
-        #languages = ['swedish']
-        languages = ['english', 'portuguese', 'spanish', 'swedish']
+        languages = ['english']
+        #languages = ['english', 'portuguese', 'spanish', 'swedish']
         
         #language of the current dataset to continue training and evaluation
         #language = 'swedish'
         #language = 'portuguese'
-        language = 'swedish'
+        language = 'english'
         
         # just a variable for the naming of the experiments
         mla_order = '_'.join(languages)
@@ -157,25 +159,41 @@ if __name__ == "__main__":
         resources_per_trial = {'cpu': 8, "gpu":1}
 
         # paths to datasets labels and columnname for translation or not (translation or original)
-        data_paths = {'train_data_path_mimic': f"/pvc/data/paper_data/mimic_codiesp_filtered_CCS_fold_1_train.csv",
-                'validation_data_path_mimic': f"/pvc/data/paper_data/mimic_codiesp_filtered_CCS_fold_1_dev.csv",
-                'test_data_path_mimic': f"/pvc/data/paper_data/mimic_codiesp_filtered_CCS_fold_1_test.csv",
+        data_paths = {
+                # 'train_data_path_mimic': f"/pvc/data/paper_data/mimic_codiesp_filtered_CCS_fold_1_train.csv",
+                # 'validation_data_path_mimic': f"/pvc/data/paper_data/mimic_codiesp_filtered_CCS_fold_1_dev.csv",
+                # 'test_data_path_mimic': f"/pvc/data/paper_data/mimic_codiesp_filtered_CCS_fold_1_test.csv",
+
+                'train_data_path_mimic': f"/pvc/cross-lingual-phenotype-prediction/dataset_creation/output_files/mimic_intersection_filtered_CCS_train.csv",
+                'validation_data_path_mimic': f"/pvc/cross-lingual-phenotype-prediction/dataset_creation/output_files/mimic_intersection_filtered_CCS_dev.csv",
+                'test_data_path_mimic': f"/pvc/cross-lingual-phenotype-prediction/dataset_creation/output_files/mimic_intersection_filtered_CCS_test.csv",
                 
-                'train_data_path_achepa': f"/pvc/cross-lingual-phenotype-prediction/dataset_creation/output_files/achepa_codiesp_filtered_CCS_fold_1_train.csv",
-                'validation_data_path_achepa': f"/pvc/cross-lingual-phenotype-prediction/dataset_creation/output_files/achepa_codiesp_filtered_CCS_fold_1_dev.csv",
-                'test_data_path_achepa': f"/pvc/cross-lingual-phenotype-prediction/dataset_creation/output_files/achepa_codiesp_filtered_CCS_fold_1_test.csv",
+                # 'train_data_path_achepa': f"/pvc/cross-lingual-phenotype-prediction/dataset_creation/output_files/achepa_codiesp_filtered_CCS_fold_1_train.csv",
+                # 'validation_data_path_achepa': f"/pvc/cross-lingual-phenotype-prediction/dataset_creation/output_files/achepa_codiesp_filtered_CCS_fold_1_dev.csv",
+                # 'test_data_path_achepa': f"/pvc/cross-lingual-phenotype-prediction/dataset_creation/output_files/achepa_codiesp_filtered_CCS_fold_1_test.csv",
+
+                               
+                'train_data_path_achepa': f"/pvc/cross-lingual-phenotype-prediction/dataset_creation/output_files/achepa_intersection_filtered_CCS_train.csv",
+                'validation_data_path_achepa': f"/pvc/cross-lingual-phenotype-prediction/dataset_creation/output_files/achepa_intersection_filtered_CCS_dev.csv",
+                'test_data_path_achepa': f"/pvc/cross-lingual-phenotype-prediction/dataset_creation/output_files/achepa_intersection_filtered_CCS_test.csv",
                 # Note that these contain the translations as well
                 # 'train_data_path_codie': f"/pvc/data/paper_data/codiesp_CCS_fold_1_train.csv",
                 # 'validation_data_path_codie': f"/pvc/data/paper_data/codiesp_CCS_fold_1_dev.csv",
                 # 'test_data_path_codie': f"/pvc/data/paper_data/codiesp_CCS_fold_1_test.csv",
 
-                'train_data_path_brazilian': f"/pvc/cross-lingual-phenotype-prediction/dataset_creation/output_files/v3_brazilian_codiesp_filtered_CCS__fold_1_train.csv",
-                'validation_data_path_brazilian': f"/pvc/cross-lingual-phenotype-prediction/dataset_creation/output_files/v3_brazilian_codiesp_filtered_CCS__fold_1_dev.csv",
-                'test_data_path_brazilian': f"/pvc/cross-lingual-phenotype-prediction/dataset_creation/output_files/v3_brazilian_codiesp_filtered_CCS__fold_1_test.csv",
+                # 'train_data_path_brazilian': f"/pvc/cross-lingual-phenotype-prediction/dataset_creation/output_files/v3_brazilian_codiesp_filtered_CCS__fold_1_train.csv",
+                # 'validation_data_path_brazilian': f"/pvc/cross-lingual-phenotype-prediction/dataset_creation/output_files/v3_brazilian_codiesp_filtered_CCS__fold_1_dev.csv",
+                # 'test_data_path_brazilian': f"/pvc/cross-lingual-phenotype-prediction/dataset_creation/output_files/v3_brazilian_codiesp_filtered_CCS__fold_1_test.csv",
+                'train_data_path_brazilian': f"/pvc/cross-lingual-phenotype-prediction/dataset_creation/output_files/brazilian_intersection_filtered_CCS_fold_1_train.csv",
+                'validation_data_path_brazilian': f"/pvc/cross-lingual-phenotype-prediction/dataset_creation/output_files/brazilian_intersection_filtered_CCS_fold_1_dev.csv",
+                'test_data_path_brazilian': f"/pvc/cross-lingual-phenotype-prediction/dataset_creation/output_files/brazilian_intersection_filtered_CCS_fold_1_test.csv",
 
-                'train_data_path_codie': f"/pvc/cross-lingual-phenotype-prediction/dataset_creation/output_files/codiesp_CCS_train.csv",
-                'validation_data_path_codie': f"/pvc/cross-lingual-phenotype-prediction/dataset_creation/output_files/codiesp_CCS_dev.csv",
-                'test_data_path_codie': f"/pvc/cross-lingual-phenotype-prediction/dataset_creation/output_files/codiesp_CCS_test.csv",
+                # 'train_data_path_codie': f"/pvc/cross-lingual-phenotype-prediction/dataset_creation/output_files/codiesp_CCS_train.csv",
+                # 'validation_data_path_codie': f"/pvc/cross-lingual-phenotype-prediction/dataset_creation/output_files/codiesp_CCS_dev.csv",
+                # 'test_data_path_codie': f"/pvc/cross-lingual-phenotype-prediction/dataset_creation/output_files/codiesp_CCS_test.csv",
+                'train_data_path_codie': f"/pvc/cross-lingual-phenotype-prediction/dataset_creation/output_files/codie_intersection_CCS_train.csv",
+                'validation_data_path_codie': f"/pvc/cross-lingual-phenotype-prediction/dataset_creation/output_files/codie_intersection_CCS_dev.csv",
+                'test_data_path_codie': f"/pvc/cross-lingual-phenotype-prediction/dataset_creation/output_files/codie_intersection_CCS_test.csv",
                 
                 # 'train_data_path_swedish': f"/pvc/cross-lingual-phenotype-prediction/dataset_creation/output_files/v1_swedish_codiesp_filtered_CCS__fold_1_train.csv",
                 # 'validation_data_path_swedish': f"/pvc/cross-lingual-phenotype-prediction/dataset_creation/output_files/v1_swedish_codiesp_filtered_CCS__fold_1_dev.csv",
@@ -186,7 +204,8 @@ if __name__ == "__main__":
                 'validation_data_path_swedish': f"/pvc/cross-lingual-phenotype-prediction/dataset_creation/output_files/large_swedish_codiesp_filtered_CCS__fold_1_dev.csv",
                 'test_data_path_swedish': f"/pvc/cross-lingual-phenotype-prediction/dataset_creation/output_files/large_swedish_codiesp_filtered_CCS__fold_1_test.csv",
 
-                'all_labels_path': f"/pvc/cross-lingual-phenotype-prediction/dataset_creation/output_files/{filter_set_name}_labels.pcl",
+                #'all_labels_path': f"/pvc/cross-lingual-phenotype-prediction/dataset_creation/output_files/{filter_set_name}_labels.pcl",
+                'all_labels_path': f"/pvc/cross-lingual-phenotype-prediction/dataset_creation/input_files/{filter_set_name}_labels.txt",
                 'eval_dataset': eval_dataset,
                 'translator_data_selector': translator_data_selector,
                 }
@@ -234,6 +253,9 @@ if __name__ == "__main__":
         
         task_adapter_swedish_mimic_mla_path = '/pvc/raytune_ccs_codie/tune_adapter_swedish_english_diagnosis_MLA_TEST/_inner_fa4c4c76_35_first_acc_steps=0,first_attention_dropout=0,first_batch_size=8,first_hidden_dropout=0,first_lr=0,first_num_epoc_2023-05-09_04-20-10/training_output_en_0_0.00011356730781095573/checkpoint-71254'
 
+        # These are the paths for the intersection mappings:
+
+        #task_adapter_mimic_sla_path = '/pvc/raytune_ccs_intersection/tune_adapter_mimic_original_SLA_TEST/_inner_1c163aac_37_first_acc_steps=2,first_attention_dropout=0.1,first_batch_size=8,first_hidden_dropout=0.1,first_lr=0.00023302,f_2023-05-12_19-00-14/training_output_en_0.00023302485727184875_0/checkpoint-14140'
 
         if is_first:
                 # first training

@@ -8,29 +8,39 @@ import pandas as pd
 
 if __name__== '__main__':
 
-    SELECTOR = 'PART_1'
-    task = 'codie_CCS'
+    SELECTOR = 'PART_2'
+    #task = 'codie_CCS'
+    task = 'intersection'
     icd_10_dxccsr_paths = '/pvc/cross-lingual-phenotype-prediction/dataset_creation/input_files/DXCCSR_v2021-2.csv'
     mimic_src_path = '/pvc/connor/mimic-iii-clinical-database-1.4/'
     # created with GEMS (General Equivalence Mapping)
     diagnosis_icd9_icd10_mapper_path = '/pvc/cross-lingual-phenotype-prediction/dataset_creation/input_files/diagnosis_icd9_icd10.pcl'
     #LABELS OUTPUT PATH
+    intersection_labels_path = '/pvc/cross-lingual-phenotype-prediction/dataset_creation/input_files/ccs_intersection_labels.txt'
     labels_output_path = '/pvc/cross-lingual-phenotype-prediction/dataset_creation/output_files/{}_labels.pcl'
     train_data_output_path = '/pvc/cross-lingual-phenotype-prediction/dataset_creation/output_files/{}'
     
     if SELECTOR in ['PART_1', 'ALL']:
         #load mimic, filter , map icd9 to icd 10 and get relevant sections
         mimic_df = mimic_utils.mimic_map_icd9_icd10(diagnosis_icd9_icd10_mapper_path, mimic_src_path, mimic_labels_path=None)
-        mimic_df.to_csv('mimic_tmp.csv', index=False)
+        mimic_df.to_csv('/pvc/cross-lingual-phenotype-prediction/dataset_creation/src/mimic/mimic_tmp.csv', index=False)
         
     if SELECTOR in ['PART_2', 'ALL']:
 
-        mimic_df = pd.read_csv('mimic_tmp.csv')
+        mimic_df = pd.read_csv('/pvc/cross-lingual-phenotype-prediction/dataset_creation/src/mimic/mimic_tmp.csv')
 
         if task == 'codie_CCS':
             codie_labels = codie_utils.load_codie_labels(labels_output_path)
             mimic_df_notes = mimic_utils.map_filter_ccs(mimic_df, codie_labels, icd_10_dxccsr_paths)
             dataset_name = 'mimic_codiesp_filtered_CCS'
+            labels = codie_labels
+        
+        elif task == 'intersection':
+            #codie_labels = codie_utils.load_codie_labels(labels_output_path)
+            with open(intersection_labels_path, 'r') as f:
+                codie_labels = [row.strip() for row in f]
+            mimic_df_notes = mimic_utils.map_filter_ccs(mimic_df, codie_labels, icd_10_dxccsr_paths)
+            dataset_name = 'mimic_intersection_filtered_CCS'
             labels = codie_labels
 
         elif task == 'achepa_diagnoses': 

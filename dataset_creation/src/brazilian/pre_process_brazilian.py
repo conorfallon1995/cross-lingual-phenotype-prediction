@@ -10,11 +10,13 @@ import os
 #CCS_PATH = '/pvc/brazilian/MATCHED copy'
 CCS_PATH = '/pvc/UMLSParser/CIDoutputs copy'
 TEXT_PATH = '/pvc/brazilian/parsed_xmls/'
+intersection_labels_path = '/pvc/cross-lingual-phenotype-prediction/dataset_creation/input_files/ccs_intersection_labels.txt'
 
 if __name__== '__main__':
 
-    SELECTOR = 'PART_1'
-    task = 'codie_CCS'
+    SELECTOR = 'PART_2'
+    #task = 'codie_CCS'
+    task = 'intersection'
     icd_10_dxccsr_paths = '/pvc/cross-lingual-phenotype-prediction/dataset_creation/input_files/DXCCSR_v2021-2.csv'
     mimic_src_path = '/pvc/connor/mimic-iii-clinical-database-1.4/'
     # created with GEMS (General Equivalence Mapping)
@@ -63,6 +65,14 @@ if __name__== '__main__':
             #mimic_df_notes = mimic_utils.map_filter_ccs(brazilian_df, codie_labels, icd_10_dxccsr_paths)
             mimic_df_notes = brazilian_df
             dataset_name = 'v3_brazilian_codiesp_filtered_CCS_'
+            labels = codie_labels
+        elif task == 'intersection':
+            #codie_labels = codie_utils.load_codie_labels(labels_output_path)
+            with open(intersection_labels_path, 'r') as f:
+                codie_labels = [row.strip() for row in f]
+            mimic_df_notes = brazilian_df
+            #mimic_df_notes = mimic_utils.map_filter_ccs(brazilian_df, codie_labels, icd_10_dxccsr_paths)
+            dataset_name = 'brazilian_intersection_filtered_CCS'
             labels = codie_labels
         '''
         elif task == 'achepa_diagnoses': 

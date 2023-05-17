@@ -10,7 +10,7 @@ import plotly.graph_objects as go
 ccsr_path = '/pvc/cross-lingual-phenotype-prediction/dataset_creation/input_files/DXCCSR_v2021-2.csv'
 swedish_path = '/pvc/Stockholm EPR ICD-10 Corpus_14_nov_2022_removed_personnummer.tsv'
 mimic_path = '/pvc/cross-lingual-phenotype-prediction/dataset_creation/src/mimic/mimic_tmp.csv'
-ahepa_paths = ['/pvc/cross-lingual-phenotype-prediction/dataset_creation/output_files/mimic_codiesp_filtered_CCS_dev.csv', '/pvc/cross-lingual-phenotype-prediction/dataset_creation/output_files/achepa_codiesp_filtered_CCS_fold_1_test.csv', '/pvc/cross-lingual-phenotype-prediction/dataset_creation/output_files/achepa_codiesp_filtered_CCS_fold_1_train.csv']
+ahepa_paths = ['/pvc/cross-lingual-phenotype-prediction/dataset_creation/output_files/achepa_codiesp_filtered_CCS_fold_1_dev.csv', '/pvc/cross-lingual-phenotype-prediction/dataset_creation/output_files/achepa_codiesp_filtered_CCS_fold_1_test.csv', '/pvc/cross-lingual-phenotype-prediction/dataset_creation/output_files/achepa_codiesp_filtered_CCS_fold_1_train.csv']
 codie_path = '/pvc/cross-lingual-phenotype-prediction/dataset_creation/output_files/css_codie_labels.txt'
 brazilian_path = '/pvc/cross-lingual-phenotype-prediction/dataset_creation/src/brazilian/brazilian_tmp_4.csv'
 ccsr_dict = {}
@@ -111,7 +111,7 @@ def parse_ahepa():
 
     # get the unique values from the 'labels' column
     unique_labels = exploded_df['labels'].unique()
-    #print(unique_labels.tolist())
+    print(unique_labels.tolist())
     print(f"The number of unique Ahepa CCSR codes is: {len(unique_labels)}")
     return unique_labels.tolist()
 
@@ -147,12 +147,7 @@ if __name__ == "__main__":
         reader = csv.DictReader(f)
         for row in reader:
             ccsr_dict[row["'ICD-10-CM CODE'"].replace("'", '')[0:3]] = row["'Default CCSR CATEGORY DESCRIPTION IP'"]
-
-    #print(ccsr_dict)
-    #parse_swedish() 
-    #parse_mimic() 
-    #parse_ahepa() 
-    #parse_codie()       
+     
     brazilian = parse_brazilian()
     mimic = parse_mimic()
     swedish = parse_swedish()
@@ -165,11 +160,26 @@ if __name__ == "__main__":
 
     brazilian = set(brazilian)
     mimic = set(mimic)
-    swedish = set(swedish)
+    #swedish = set(swedish)
+    swedish = set(ahepa)
     ahepa = set(ahepa)
     codie = set(codie)
 
     intersection_set = set(brazilian.intersection(mimic, swedish, ahepa, codie))
+
+    print(intersection_set)
+
+    # with open('/pvc/cross-lingual-phenotype-prediction/dataset_creation/input_files/ccs_union_labels.txt', 'w') as f:
+    #     # iterate over the elements of the set
+    #     for element in union_set:
+    #         # write each element to a new line in the file
+    #         f.write(str(element) + '\n')
+
+    with open('/pvc/cross-lingual-phenotype-prediction/dataset_creation/input_files/ccs_intersection_labels.txt', 'w') as f:
+        # iterate over the elements of the set
+        for element in intersection_set:
+            # write each element to a new line in the file
+            f.write(str(element) + '\n')
 
     print(f"The number of total CCSR codes is: {len(union_set)}")
     print(f"The number of shared CCSR codes (intersection) is: {len(intersection_set)}")
